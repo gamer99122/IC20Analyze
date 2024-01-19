@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.IO.Compression;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using HIS2Module.ControlObjectCustom;
 using HIS2Module.UtilExtension;
+using IC20Analyze.Class;
 
 namespace IC20Analyze
 {
@@ -19,7 +21,9 @@ namespace IC20Analyze
 
         AnalyticsTxt _anaTxt = new AnalyticsTxt();
 
-        string _FilePath { get; set; }
+        csBasicSetting _basSetting = new csBasicSetting();
+
+        //string _FilePath { get; set; }
 
 
         public Main()
@@ -27,14 +31,14 @@ namespace IC20Analyze
             InitializeComponent();
 
 
-
+            chkProSearch.Checked = true;
 
         }
 
 
         private void Main_Load(object sender, EventArgs e)
         {
-            txtPath.Text = @"D:\aa_專案\17_小專案\e.IC2.0上傳\Check";
+            txtPath.Text = _basSetting.GetFilePath;
             GetFiles();
 
             this.pSetAutoReSize(true, true);     //一定要在最後
@@ -53,6 +57,21 @@ namespace IC20Analyze
             // 重新載入
             GetFiles();
 
+        }
+
+
+        private void cmbXMLFile_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            txtOrign.Text = _dicDoc[cmbXMLFile.Text];
+            if (txtOrign.Text.Length <= 0) return;
+
+            SetAnalyzeText();
+        }
+
+        private void btnOpenFile_Click(object sender, EventArgs e)
+        {
+            _basSetting.GetFilePath = txtPath.Text.pNullOrTrimTwo();
+            OpenFolder(_basSetting.GetFilePath);
         }
 
 
@@ -95,6 +114,10 @@ namespace IC20Analyze
                 richTextBox1.Clear();
                 foreach (var i in arrContent)
                 {
+                    if (i.Length <= 0)
+                    {
+                        continue;
+                    }
                     Run解析(i);
                 }
             }
@@ -182,6 +205,7 @@ namespace IC20Analyze
         }
 
 
+
         //*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
 
 
@@ -193,8 +217,8 @@ namespace IC20Analyze
         /// </summary>
         void GetFiles()
         {
-            _FilePath = txtPath.Text.pNullOrTrimTwo();
-            _dicDoc = LoadZipFiles(_FilePath);
+            _basSetting.GetFilePath = txtPath.Text.pNullOrTrimTwo();
+            _dicDoc = LoadZipFiles(_basSetting.GetFilePath);
 
             var docTitle = _dicDoc.Select(o => o.Key);
             cmbXMLFile.DataSource = docTitle.ToList();
@@ -250,10 +274,15 @@ namespace IC20Analyze
             return Encoding.GetEncoding("big5");
         }
 
-        private void cmbXMLFile_SelectedIndexChanged(object sender, EventArgs e)
+        /// <summary>
+        /// 開啟路行資料夾
+        /// </summary>
+        /// <param name="folderPath"></param>
+        void OpenFolder(string folderPath)
         {
-            txtOrign.Text = _dicDoc[cmbXMLFile.Text];
-            SetAnalyzeText();
+            // 使用 Explorer 打开文件夹
+            Process.Start("explorer.exe", folderPath);
         }
+
     }
 }

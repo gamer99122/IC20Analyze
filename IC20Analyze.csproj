@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnalyticsTxt.cs" />
+    <Compile Include="Class\csBasicSetting.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>

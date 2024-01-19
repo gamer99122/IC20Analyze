@@ -29,7 +29,7 @@ namespace IC20Analyze
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.chkProSearch = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtOrign = new System.Windows.Forms.TextBox();
@@ -37,13 +37,14 @@ namespace IC20Analyze
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.txtPath = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.btnFileReload = new System.Windows.Forms.Button();
+            this.cmbXMLFile = new System.Windows.Forms.ComboBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.splitter1 = new System.Windows.Forms.Splitter();
-            this.btnFileReload = new System.Windows.Forms.Button();
-            this.cmbXMLFile = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txtPath = new System.Windows.Forms.TextBox();
+            this.btnOpenFile = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -101,14 +102,14 @@ namespace IC20Analyze
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
@@ -128,6 +129,7 @@ namespace IC20Analyze
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnOpenFile);
             this.panel1.Controls.Add(this.txtPath);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.btnFileReload);
@@ -140,6 +142,43 @@ namespace IC20Analyze
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(705, 77);
             this.panel1.TabIndex = 13;
+            // 
+            // txtPath
+            // 
+            this.txtPath.Location = new System.Drawing.Point(91, 42);
+            this.txtPath.Name = "txtPath";
+            this.txtPath.Size = new System.Drawing.Size(406, 29);
+            this.txtPath.TabIndex = 66;
+            this.txtPath.Tag = "可以先打在這邊";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 47);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(73, 20);
+            this.label2.TabIndex = 65;
+            this.label2.Text = "檔案路徑";
+            // 
+            // btnFileReload
+            // 
+            this.btnFileReload.Location = new System.Drawing.Point(503, 4);
+            this.btnFileReload.Name = "btnFileReload";
+            this.btnFileReload.Size = new System.Drawing.Size(85, 32);
+            this.btnFileReload.TabIndex = 64;
+            this.btnFileReload.Text = "重新載入";
+            this.btnFileReload.UseVisualStyleBackColor = true;
+            this.btnFileReload.Click += new System.EventHandler(this.btnFileReload_Click);
+            // 
+            // cmbXMLFile
+            // 
+            this.cmbXMLFile.FormattingEnabled = true;
+            this.cmbXMLFile.Location = new System.Drawing.Point(221, 6);
+            this.cmbXMLFile.Name = "cmbXMLFile";
+            this.cmbXMLFile.Size = new System.Drawing.Size(276, 28);
+            this.cmbXMLFile.TabIndex = 63;
+            this.cmbXMLFile.Text = "請選擇";
+            this.cmbXMLFile.SelectedIndexChanged += new System.EventHandler(this.cmbXMLFile_SelectedIndexChanged);
             // 
             // panel2
             // 
@@ -170,42 +209,15 @@ namespace IC20Analyze
             this.splitter1.TabIndex = 16;
             this.splitter1.TabStop = false;
             // 
-            // btnFileReload
+            // btnOpenFile
             // 
-            this.btnFileReload.Location = new System.Drawing.Point(503, 4);
-            this.btnFileReload.Name = "btnFileReload";
-            this.btnFileReload.Size = new System.Drawing.Size(85, 32);
-            this.btnFileReload.TabIndex = 64;
-            this.btnFileReload.Text = "重新載入";
-            this.btnFileReload.UseVisualStyleBackColor = true;
-            this.btnFileReload.Click += new System.EventHandler(this.btnFileReload_Click);
-            // 
-            // cmbXMLFile
-            // 
-            this.cmbXMLFile.FormattingEnabled = true;
-            this.cmbXMLFile.Location = new System.Drawing.Point(221, 6);
-            this.cmbXMLFile.Name = "cmbXMLFile";
-            this.cmbXMLFile.Size = new System.Drawing.Size(276, 28);
-            this.cmbXMLFile.TabIndex = 63;
-            this.cmbXMLFile.Text = "請選擇";
-            this.cmbXMLFile.SelectedIndexChanged += new System.EventHandler(this.cmbXMLFile_SelectedIndexChanged);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 47);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(73, 20);
-            this.label2.TabIndex = 65;
-            this.label2.Text = "檔案路徑";
-            // 
-            // txtPath
-            // 
-            this.txtPath.Location = new System.Drawing.Point(91, 42);
-            this.txtPath.Name = "txtPath";
-            this.txtPath.Size = new System.Drawing.Size(406, 29);
-            this.txtPath.TabIndex = 66;
-            this.txtPath.Tag = "可以先打在這邊";
+            this.btnOpenFile.Location = new System.Drawing.Point(503, 41);
+            this.btnOpenFile.Name = "btnOpenFile";
+            this.btnOpenFile.Size = new System.Drawing.Size(85, 32);
+            this.btnOpenFile.TabIndex = 67;
+            this.btnOpenFile.Text = "開啟資料夾";
+            this.btnOpenFile.UseVisualStyleBackColor = true;
+            this.btnOpenFile.Click += new System.EventHandler(this.btnOpenFile_Click);
             // 
             // Main
             // 
@@ -247,6 +259,7 @@ namespace IC20Analyze
         private System.Windows.Forms.ComboBox cmbXMLFile;
         private System.Windows.Forms.TextBox txtPath;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnOpenFile;
     }
 }
 

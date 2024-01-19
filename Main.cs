@@ -122,7 +122,7 @@ namespace IC20Analyze
 
             string strField = str.pSplit(":")[0];
 
-            bool isOK = _anaTxt._dicFieldCH.ContainsKey(strField);
+            bool isOK = _anaTxt._dicFieldCH.ContainsKey(strField.pLeft(3));
 
             if (isOK == false)
             {

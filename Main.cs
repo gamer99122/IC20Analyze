@@ -25,6 +25,10 @@ namespace IC20Analyze
         public Main()
         {
             InitializeComponent();
+
+
+
+
         }
 
 

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using HIS2Module.ControlObjectCustom;
 using HIS2Module.UtilExtension;
 
 namespace IC20Analyze
@@ -137,6 +138,11 @@ namespace IC20Analyze
 
             richTextBox1.SelectionColor = Color.Red;
             richTextBox1.AppendText($"{strCode} - {strCodeCH}\r\n\r\n");
+        }
+
+        private void Main_Load(object sender, EventArgs e)
+        {
+            this.pSetAutoReSize(true, true);
         }
     }
 }

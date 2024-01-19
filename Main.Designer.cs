@@ -29,7 +29,7 @@ namespace IC20Analyze
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.chkProSearch = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtOrign = new System.Windows.Forms.TextBox();
@@ -40,6 +40,10 @@ namespace IC20Analyze
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.splitter1 = new System.Windows.Forms.Splitter();
+            this.btnFileReload = new System.Windows.Forms.Button();
+            this.cmbXMLFile = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtPath = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -49,7 +53,7 @@ namespace IC20Analyze
             // chkProSearch
             // 
             this.chkProSearch.AutoSize = true;
-            this.chkProSearch.Location = new System.Drawing.Point(123, 19);
+            this.chkProSearch.Location = new System.Drawing.Point(123, 7);
             this.chkProSearch.Name = "chkProSearch";
             this.chkProSearch.Size = new System.Drawing.Size(92, 24);
             this.chkProSearch.TabIndex = 9;
@@ -60,7 +64,7 @@ namespace IC20Analyze
             // 
             this.label1.AutoSize = true;
             this.label1.ForeColor = System.Drawing.Color.Blue;
-            this.label1.Location = new System.Drawing.Point(13, 20);
+            this.label1.Location = new System.Drawing.Point(10, 9);
             this.label1.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(105, 20);
@@ -76,14 +80,15 @@ namespace IC20Analyze
             this.txtOrign.Multiline = true;
             this.txtOrign.Name = "txtOrign";
             this.txtOrign.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtOrign.Size = new System.Drawing.Size(583, 104);
+            this.txtOrign.Size = new System.Drawing.Size(705, 88);
             this.txtOrign.TabIndex = 7;
             // 
             // btnAnalyze
             // 
-            this.btnAnalyze.Location = new System.Drawing.Point(358, 4);
+            this.btnAnalyze.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnAnalyze.Location = new System.Drawing.Point(602, 0);
             this.btnAnalyze.Name = "btnAnalyze";
-            this.btnAnalyze.Size = new System.Drawing.Size(221, 49);
+            this.btnAnalyze.Size = new System.Drawing.Size(103, 77);
             this.btnAnalyze.TabIndex = 10;
             this.btnAnalyze.Text = "解析";
             this.btnAnalyze.UseVisualStyleBackColor = true;
@@ -96,20 +101,20 @@ namespace IC20Analyze
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(583, 223);
+            this.dataGridView1.Size = new System.Drawing.Size(705, 223);
             this.dataGridView1.TabIndex = 11;
             // 
             // richTextBox1
@@ -117,28 +122,32 @@ namespace IC20Analyze
             this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBox1.Location = new System.Drawing.Point(0, 0);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(583, 223);
+            this.richTextBox1.Size = new System.Drawing.Size(705, 223);
             this.richTextBox1.TabIndex = 12;
             this.richTextBox1.Text = "";
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.txtPath);
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.btnFileReload);
+            this.panel1.Controls.Add(this.cmbXMLFile);
             this.panel1.Controls.Add(this.chkProSearch);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.btnAnalyze);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(583, 61);
+            this.panel1.Size = new System.Drawing.Size(705, 77);
             this.panel1.TabIndex = 13;
             // 
             // panel2
             // 
             this.panel2.Controls.Add(this.txtOrign);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(0, 61);
+            this.panel2.Location = new System.Drawing.Point(0, 77);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(583, 104);
+            this.panel2.Size = new System.Drawing.Size(705, 88);
             this.panel2.TabIndex = 14;
             // 
             // panel3
@@ -148,7 +157,7 @@ namespace IC20Analyze
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel3.Location = new System.Drawing.Point(0, 170);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(583, 223);
+            this.panel3.Size = new System.Drawing.Size(705, 223);
             this.panel3.TabIndex = 15;
             // 
             // splitter1
@@ -157,15 +166,52 @@ namespace IC20Analyze
             this.splitter1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.splitter1.Location = new System.Drawing.Point(0, 165);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(583, 5);
+            this.splitter1.Size = new System.Drawing.Size(705, 5);
             this.splitter1.TabIndex = 16;
             this.splitter1.TabStop = false;
+            // 
+            // btnFileReload
+            // 
+            this.btnFileReload.Location = new System.Drawing.Point(503, 4);
+            this.btnFileReload.Name = "btnFileReload";
+            this.btnFileReload.Size = new System.Drawing.Size(85, 32);
+            this.btnFileReload.TabIndex = 64;
+            this.btnFileReload.Text = "重新載入";
+            this.btnFileReload.UseVisualStyleBackColor = true;
+            this.btnFileReload.Click += new System.EventHandler(this.btnFileReload_Click);
+            // 
+            // cmbXMLFile
+            // 
+            this.cmbXMLFile.FormattingEnabled = true;
+            this.cmbXMLFile.Location = new System.Drawing.Point(221, 6);
+            this.cmbXMLFile.Name = "cmbXMLFile";
+            this.cmbXMLFile.Size = new System.Drawing.Size(276, 28);
+            this.cmbXMLFile.TabIndex = 63;
+            this.cmbXMLFile.Text = "請選擇";
+            this.cmbXMLFile.SelectedIndexChanged += new System.EventHandler(this.cmbXMLFile_SelectedIndexChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 47);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(73, 20);
+            this.label2.TabIndex = 65;
+            this.label2.Text = "檔案路徑";
+            // 
+            // txtPath
+            // 
+            this.txtPath.Location = new System.Drawing.Point(91, 42);
+            this.txtPath.Name = "txtPath";
+            this.txtPath.Size = new System.Drawing.Size(406, 29);
+            this.txtPath.TabIndex = 66;
+            this.txtPath.Tag = "可以先打在這邊";
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(583, 393);
+            this.ClientSize = new System.Drawing.Size(705, 393);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.splitter1);
             this.Controls.Add(this.panel3);
@@ -197,6 +243,10 @@ namespace IC20Analyze
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Splitter splitter1;
+        private System.Windows.Forms.Button btnFileReload;
+        private System.Windows.Forms.ComboBox cmbXMLFile;
+        private System.Windows.Forms.TextBox txtPath;
+        private System.Windows.Forms.Label label2;
     }
 }
 

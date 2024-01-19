@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,13 +19,47 @@ namespace IC20Analyze
 
         AnalyticsTxt _anaTxt = new AnalyticsTxt();
 
+        string _FilePath { get; set; }
+
+
         public Main()
         {
             InitializeComponent();
         }
 
+
+        private void Main_Load(object sender, EventArgs e)
+        {
+            txtPath.Text = @"D:\aa_專案\17_小專案\e.IC2.0上傳\Check";
+            GetFiles();
+
+            this.pSetAutoReSize(true, true);     //一定要在最後
+        }
+
+
+
         private void btnAnalyze_Click(object sender, EventArgs e)
         {
+            SetAnalyzeText();
+        }
+
+
+        private void btnFileReload_Click(object sender, EventArgs e)
+        {
+            // 重新載入
+            GetFiles();
+
+        }
+
+
+        //*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--**-*-*-
+        //*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--**-*-*-
+        //*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--**-*-*-
+
+
+        void SetAnalyzeText()
+        {
+
             btnAnalyze.Enabled = false;
 
 
@@ -61,6 +97,7 @@ namespace IC20Analyze
 
             btnAnalyze.Enabled = true;
         }
+
 
         private void Run解析(string str)
         {
@@ -140,9 +177,79 @@ namespace IC20Analyze
             richTextBox1.AppendText($"{strCode} - {strCodeCH}\r\n\r\n");
         }
 
-        private void Main_Load(object sender, EventArgs e)
+
+        //*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+
+
+        Dictionary<string, string> _dicDoc = new Dictionary<string, string>();
+
+
+        /// <summary>
+        /// 讀取zip
+        /// </summary>
+        void GetFiles()
         {
-            this.pSetAutoReSize(true, true);
+            _FilePath = txtPath.Text.pNullOrTrimTwo();
+            _dicDoc = LoadZipFiles(_FilePath);
+
+            var docTitle = _dicDoc.Select(o => o.Key);
+            cmbXMLFile.DataSource = docTitle.ToList();
+
+
+            // 打印读取的文件内容
+            foreach (var kvp in _dicDoc)
+            {
+                Console.WriteLine($"File Name: {kvp.Key}\nContent:\n{kvp.Value}\n");
+            }
+        }
+
+        Dictionary<string, string> LoadZipFiles(string folderPath)
+        {
+            Dictionary<string, string> disZip = new Dictionary<string, string>();
+
+            // 获取指定文件夹中的所有 ZIP 文件
+            string[] zipFiles = Directory.GetFiles(folderPath, "*.zip");
+
+            foreach (string zipFilePath in zipFiles)
+            {
+                // 打开 ZIP 文件
+                using (ZipArchive archive = ZipFile.OpenRead(zipFilePath))
+                {
+                    // 遍历 ZIP 文件中的每个条目
+                    foreach (ZipArchiveEntry entry in archive.Entries)
+                    {
+                        // 读取文件内容，并指定正确的编码
+                        string fileContent = ReadFileContent(entry);
+
+                        // 将文件名和内容存入字典
+                        disZip[entry.FullName] = fileContent;
+                    }
+                }
+            }
+
+            return disZip;
+        }
+
+        string ReadFileContent(ZipArchiveEntry entry)
+        {
+            using (Stream entryStream = entry.Open())
+            using (StreamReader reader = new StreamReader(entryStream, DetectFileEncoding(entryStream)))
+            {
+                return reader.ReadToEnd();
+            }
+        }
+
+        Encoding DetectFileEncoding(Stream stream)
+        {
+            // 在这里你可以使用更复杂的算法来检测文件编码
+            // 这里简单地使用 UTF-8 编码，你可能需要根据实际情况进行调整
+            return Encoding.GetEncoding("big5");
+        }
+
+        private void cmbXMLFile_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            txtOrign.Text = _dicDoc[cmbXMLFile.Text];
+            SetAnalyzeText();
         }
     }
 }

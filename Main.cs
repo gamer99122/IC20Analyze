@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using HIS2Module.ControlObjectCustom;
 using HIS2Module.UtilExtension;
 using IC20Analyze.Class;
+using Microsoft.VisualBasic.FileIO;
 
 namespace IC20Analyze
 {
@@ -48,12 +49,23 @@ namespace IC20Analyze
 
         private void btnAnalyze_Click(object sender, EventArgs e)
         {
-            SetAnalyzeText();
+            if (cmbXMLFile.Items.Count <= 0)
+            {
+                SetAnalyzeText();
+                return;
+            }
+
+            // 重新載入
+            GetFiles();
         }
 
 
         private void btnFileReload_Click(object sender, EventArgs e)
         {
+            if ("是否刪除??".pAsk() == false) return;
+
+            CleanUpFiles();
+
             // 重新載入
             GetFiles();
 
@@ -231,7 +243,7 @@ namespace IC20Analyze
         //*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
 
 
-        Dictionary<string, string> _dicDoc = new Dictionary<string, string>();
+        static Dictionary<string, string> _dicDoc = new Dictionary<string, string>();
 
 
         /// <summary>
@@ -242,15 +254,9 @@ namespace IC20Analyze
             _basSetting.GetFilePath = txtPath.Text.pNullOrTrimTwo();
             _dicDoc = LoadZipFiles(_basSetting.GetFilePath);
 
-            var docTitle = _dicDoc.Select(o => o.Key);
+            var docTitle = _dicDoc.Select(o => o.Key).OrderByDescending(o => o);
             cmbXMLFile.DataSource = docTitle.ToList();
 
-
-            // 打印读取的文件内容
-            foreach (var kvp in _dicDoc)
-            {
-                Console.WriteLine($"File Name: {kvp.Key}\nContent:\n{kvp.Value}\n");
-            }
         }
 
         Dictionary<string, string> LoadZipFiles(string folderPath)
@@ -272,9 +278,10 @@ namespace IC20Analyze
                         string fileContent = ReadFileContent(entry);
 
                         // 将文件名和内容存入字典
-                        disZip[entry.FullName] = fileContent;
+                        disZip[entry.FullName.pSplit(".")[0]] = fileContent;
                     }
                 }
+                Application.DoEvents();
             }
 
             return disZip;
@@ -427,5 +434,88 @@ namespace IC20Analyze
             txtOrign.Text = _dicDoc[cmbXMLFile.Text];
             button1.Enabled = true;
         }
+
+
+        #region 刪除並保留最新一筆
+        /// <summary>
+        /// 刪除並保留最新一筆
+        /// </summary>
+        /// <param name="folderPath"></param>
+        void CleanUpFiles()
+        {
+            string folderPath = _basSetting.GetFilePath;
+            var arrFile = _dicDoc.Select(o => o.Key);
+
+
+            string[] files = Directory.GetFiles(folderPath, "*.zip");
+            // 找到每个组的最新修改文件
+            string latestFile = GetLatestModifiedFile(files);
+
+            // 遍历 A1、A2、A3 的文件
+            foreach (string group in arrFile)
+            {
+                string pattern = $"{group}.zip";
+
+                // 删除并移动到回收站
+                foreach (string file in files)
+                {
+                    if (file != latestFile)
+                    {
+                        //DeleteFileToRecycleBin(file);
+                        SetCmd(file);
+                    }
+                }
+            }
+        }
+
+        string GetLatestModifiedFile(string[] files)
+        {
+            DateTime latestTime = DateTime.MinValue;
+            string latestFile = null;
+
+            foreach (string file in files)
+            {
+                DateTime lastWriteTime = File.GetLastWriteTime(file);
+                if (lastWriteTime > latestTime)
+                {
+                    latestTime = lastWriteTime;
+                    latestFile = file;
+                }
+            }
+
+            return latestFile;
+        }
+
+        void DeleteFileToRecycleBin(string filePath)
+        {
+            try
+            {
+                FileSystem.DeleteFile(filePath, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+                Console.WriteLine($"Deleted to Recycle Bin: {filePath}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error deleting file {filePath}: {ex.Message}");
+            }
+        }
+        #endregion
+
+        Process p = new Process();
+        void SetCmd(string path)
+        {
+
+            p.StartInfo.FileName = "cmd.exe";
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.RedirectStandardInput = true;
+            p.StartInfo.RedirectStandardOutput = true;
+            p.StartInfo.RedirectStandardError = true;
+            p.StartInfo.CreateNoWindow = true; //不跳出cmd視窗
+            p.Start();
+            p.StandardInput.WriteLine($"del \"{path}\"");//呼叫工作管理員
+            p.WaitForExit(100);
+            p.Close();
+        }
+
+
     }
 }

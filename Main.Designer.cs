@@ -29,7 +29,7 @@ namespace IC20Analyze
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.chkProSearch = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnAnalyze = new System.Windows.Forms.Button();
@@ -40,6 +40,8 @@ namespace IC20Analyze
             this.錯誤原因 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.原始內容 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label17 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
@@ -64,12 +66,10 @@ namespace IC20Analyze
             this.txtOrign = new System.Windows.Forms.TextBox();
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.sourceColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cnt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.label17 = new System.Windows.Forms.Label();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -122,14 +122,14 @@ namespace IC20Analyze
             this.就醫識別碼,
             this.錯誤原因,
             this.原始內容});
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle13.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
@@ -212,6 +212,25 @@ namespace IC20Analyze
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(897, 225);
             this.panel1.TabIndex = 13;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(3, 163);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(105, 20);
+            this.label17.TabIndex = 84;
+            this.label17.Text = "●全文搜尋：";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(601, 170);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(169, 32);
+            this.button1.TabIndex = 83;
+            this.button1.Text = "最多錯誤原因排名";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // txtSearch
             // 
@@ -382,11 +401,11 @@ namespace IC20Analyze
             // 
             // btnFileReload
             // 
-            this.btnFileReload.Location = new System.Drawing.Point(503, 4);
+            this.btnFileReload.Location = new System.Drawing.Point(544, 3);
             this.btnFileReload.Name = "btnFileReload";
             this.btnFileReload.Size = new System.Drawing.Size(85, 32);
             this.btnFileReload.TabIndex = 64;
-            this.btnFileReload.Text = "重新載入";
+            this.btnFileReload.Text = "清除重來";
             this.btnFileReload.UseVisualStyleBackColor = true;
             this.btnFileReload.Click += new System.EventHandler(this.btnFileReload_Click);
             // 
@@ -443,25 +462,6 @@ namespace IC20Analyze
             this.panel2.Size = new System.Drawing.Size(465, 353);
             this.panel2.TabIndex = 14;
             // 
-            // richTextBox1
-            // 
-            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox1.Location = new System.Drawing.Point(0, 0);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(465, 353);
-            this.richTextBox1.TabIndex = 12;
-            this.richTextBox1.Text = "";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(601, 170);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(169, 32);
-            this.button1.TabIndex = 83;
-            this.button1.Text = "最多錯誤原因排名";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // dataGridView2
             // 
             this.dataGridView2.AllowUserToAddRows = false;
@@ -493,14 +493,14 @@ namespace IC20Analyze
             this.Cnt.Name = "Cnt";
             this.Cnt.ReadOnly = true;
             // 
-            // label17
+            // richTextBox1
             // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(3, 163);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(105, 20);
-            this.label17.TabIndex = 84;
-            this.label17.Text = "●全文搜尋：";
+            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox1.Location = new System.Drawing.Point(0, 0);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(465, 353);
+            this.richTextBox1.TabIndex = 12;
+            this.richTextBox1.Text = "";
             // 
             // Main
             // 
@@ -569,6 +569,7 @@ namespace IC20Analyze
         private System.Windows.Forms.DataGridViewTextBoxColumn sourceColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cnt;
         private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
 

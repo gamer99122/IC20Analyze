@@ -320,12 +320,13 @@ namespace IC20Analyze
                 string column1Value = selectedRow.Cells["原始內容"].Value.ToString();
                 msg += column1Value;
                 
-
-
                 string column錯誤原因 = selectedRow.Cells["錯誤原因"].Value.ToString();
+                msg += "\r\n\r\n=====================================================================\r\n";
+                msg += _anaTxt.Run解析(column錯誤原因);
 
-                AnalyticsTxt analyticsTxt = new AnalyticsTxt();
-                msg += analyticsTxt.Run解析(column錯誤原因);
+                msg += "\r\n\r\n=====================================================================\r\n";
+                string strM15 = selectedRow.Cells["就醫識別碼"].Value.ToString();
+                msg += _anaTxt.GetSQL(strM15);
 
                 txtOrign.Text = msg;
 

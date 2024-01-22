@@ -14,6 +14,12 @@ namespace IC20Analyze
 {
     class AnalyticsTxt
     {
+        #region G等變數
+        private APSecurity _G = APSecurityInstance.G;
+        private DBConn _db = APSecurityInstance.DB;
+        private SqlConnection _conn = APSecurityInstance.Conn;
+        #endregion
+
         /// <summary>
         /// 欄位與中文對照表
         /// </summary>
@@ -35,7 +41,7 @@ namespace IC20Analyze
         public string _str有效明細;
         public string _str有效醫令;
         public string _str無效明細;
-
+        public string _strTxt純文字內容;
 
         public AnalyticsTxt()
         {
@@ -388,6 +394,7 @@ namespace IC20Analyze
 
         public void Get全文解析(string str)
         {
+            _strTxt純文字內容 = str;
             TxtToTable錯誤訊息總表(str);
 
             //第一筆檔案資訊
@@ -492,7 +499,7 @@ namespace IC20Analyze
             string[] arrContent = str.pSplit(";");
 
             string msg = string.Empty;
-            msg += "\r\n\r\n=====================================================================\r\n";
+            
             foreach (var i in arrContent)
             {
                 if (i.Length <= 0)
@@ -609,26 +616,6 @@ namespace IC20Analyze
                 }
             }
         }
-
-        public void Get總排行數量()
-        {
-            if(_dt錯誤訊息明細.pEmpty())
-            {
-                return;
-            }
-
-            foreach (var i in _dt錯誤訊息明細.AsEnumerable())
-            {
-                string Err = i.pCol("錯誤原因");
-
-
-            }
-
-
-        }
-
-
-
 
         public void Get總排行數量(string str)
         {
@@ -768,5 +755,59 @@ namespace IC20Analyze
             }
         }
 
+        public string GetSQL(string M15)
+        {
+            string SQL = string.Empty;
+            string result = string.Empty;
+
+            // MHData
+            SQL = $"\n Select top 1 * From DB_OPD..IC20HMData ";
+            SQL += $"\n where ";
+            SQL += $"\n M15 = '{M15}' ";
+            result += SQL;
+            
+            DataTable dt = _db.executesqldt(SQL, _conn);
+
+            if(dt.pAny())
+            {
+                //DDate
+                string HMUUID = dt.pRowCol("UUID");
+                SQL = $"\n\n Select top 100 * From DB_OPD..IC20DData ";
+                SQL += $"\n where ";
+                SQL += $"\n HMUUID = '{HMUUID}' ";
+                result += SQL;
+            }
+            else
+            {
+                result += "\n DDate 沒有資料";
+            }
+
+            //OpdBasicICTbl
+            SQL =$"\n\n select top 100 * from DB_OPD..OpdBasicICTbl ";
+            SQL +=$"\n where ";
+            SQL +=$"\n M15 = '{M15}' ";
+            result += SQL;
+            dt = _db.executesqldt(SQL, _conn);
+
+            if(dt.pAny())
+            {
+                //OpdBasicICMB2Tbl
+                string Date = dt.pRowCol("chOp1Date");
+                string Time = dt.pRowCol("chOp1Time");
+                string Room = dt.pRowCol("chOp1Room");
+                string No = dt.pRowCol("intOp1No");
+
+                SQL =$"\n\n select top 100 * from DB_OPD..OpdBasicICMB2Tbl ";
+                SQL +=$"\n where ";
+                SQL +=$"\n chOp1Date = '{Date}' And chOp1Time = '{Time}' And chOp1Room = '{Room}' And intOp1No = '{No}' ";
+                result += SQL;
+            }
+            else
+            {
+                result += "\n OpdBasicICMB2Tbl 沒有資料";
+            }
+
+            return result;
+        }
     }
 }

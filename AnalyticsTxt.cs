@@ -398,7 +398,7 @@ namespace IC20Analyze
             TxtToTable錯誤訊息總表(str);
 
             //第一筆檔案資訊
-            if(_dt錯誤訊息總表.pEmpty())
+            if (_dt錯誤訊息總表.pEmpty())
             {
                 return;
             }
@@ -407,7 +407,7 @@ namespace IC20Analyze
             // 使用正規表達式尋找匹配的字串
             string pattern = @"\[.*?\]";
             MatchCollection matches = Regex.Matches(TxtContent, pattern);
-            if(matches.Count != 12)
+            if (matches.Count != 12)
             {
                 //解析失敗
                 return;
@@ -499,7 +499,7 @@ namespace IC20Analyze
             string[] arrContent = str.pSplit(";");
 
             string msg = string.Empty;
-            
+
             foreach (var i in arrContent)
             {
                 if (i.Length <= 0)
@@ -522,7 +522,7 @@ namespace IC20Analyze
 
                 string strField = i.pSplit(":")[0];
                 bool isOK = true;
-                if(IsMB2)
+                if (IsMB2)
                 {
                     isOK = _dicFieldCH.ContainsKey(strField.pLeft(3));
                 }
@@ -530,7 +530,7 @@ namespace IC20Analyze
                 {
                     isOK = _dicFieldCH.ContainsKey(strField);
                 }
-                
+
 
                 if (isOK == false)
                 {
@@ -765,10 +765,10 @@ namespace IC20Analyze
             SQL += $"\n where ";
             SQL += $"\n M15 = '{M15}' ";
             result += SQL;
-            
+
             DataTable dt = _db.executesqldt(SQL, _conn);
 
-            if(dt.pAny())
+            if (dt.pAny())
             {
                 //DDate
                 string HMUUID = dt.pRowCol("UUID");
@@ -783,13 +783,13 @@ namespace IC20Analyze
             }
 
             //OpdBasicICTbl
-            SQL =$"\n\n select top 100 * from DB_OPD..OpdBasicICTbl ";
-            SQL +=$"\n where ";
-            SQL +=$"\n M15 = '{M15}' ";
+            SQL = $"\n\n select top 100 * from DB_OPD..OpdBasicICTbl ";
+            SQL += $"\n where ";
+            SQL += $"\n M15 = '{M15}' ";
             result += SQL;
             dt = _db.executesqldt(SQL, _conn);
 
-            if(dt.pAny())
+            if (dt.pAny())
             {
                 //OpdBasicICMB2Tbl
                 string Date = dt.pRowCol("chOp1Date");
@@ -797,9 +797,9 @@ namespace IC20Analyze
                 string Room = dt.pRowCol("chOp1Room");
                 string No = dt.pRowCol("intOp1No");
 
-                SQL =$"\n\n select top 100 * from DB_OPD..OpdBasicICMB2Tbl ";
-                SQL +=$"\n where ";
-                SQL +=$"\n chOp1Date = '{Date}' And chOp1Time = '{Time}' And chOp1Room = '{Room}' And intOp1No = '{No}' ";
+                SQL = $"\n\n select top 100 * from DB_OPD..OpdBasicICMB2Tbl ";
+                SQL += $"\n where ";
+                SQL += $"\n chOp1Date = '{Date}' And chOp1Time = '{Time}' And chOp1Room = '{Room}' And intOp1No = '{No}' ";
                 result += SQL;
             }
             else

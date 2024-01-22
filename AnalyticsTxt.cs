@@ -397,6 +397,8 @@ namespace IC20Analyze
             _strTxt純文字內容 = str;
             TxtToTable錯誤訊息總表(str);
 
+
+            _dt錯誤訊息明細.Clear();
             //第一筆檔案資訊
             if (_dt錯誤訊息總表.pEmpty())
             {
@@ -800,6 +802,20 @@ namespace IC20Analyze
                 SQL = $"\r\n\r\n select top 100 * from DB_OPD..OpdBasicICMB2Tbl ";
                 SQL += $"\r\n where ";
                 SQL += $"\r\n chOp1Date = '{Date}' And chOp1Time = '{Time}' And chOp1Room = '{Room}' And intOp1No = '{No}'; ";
+
+
+                SQL +=$"\r\n\r\n select top 100 * from DB_OPD..OpdBasicTbl ";
+                SQL +=$"\r\n where ";
+                SQL +=$"\r\n chOp1Date = '{Date}' And chOp1Time = '{Time}' And chOp1Room = '{Room}' And intOp1No = '{No}'; ";
+
+                SQL +=$"\r\n\r\n select top 100 * from DB_OPD..OpdOrdTbl ";
+                SQL +=$"\r\n where ";
+                SQL +=$"\r\n chOp1Date = '{Date}' And chOp1Time = '{Time}' And chOp1Room = '{Room}' And intOp1No = '{No}' and chOp4Stat<> 'DC'; ";
+
+                SQL +=$"\r\n\r\n select top 100 * from DB_OPD..OpdDrgTbl ";
+                SQL +=$"\r\n where ";
+                SQL +=$"\r\n chOp1Date = '{Date}' And chOp1Time = '{Time}' And chOp1Room = '{Room}' And intOp1No = '{No}' and chOp3Stat<> 'DC'; ";
+
                 result += SQL;
             }
             else

@@ -27,11 +27,30 @@ namespace IC20Analyze
 
         public DataTable _dt總排行數量;
         public int i總共幾個錯誤原因列 = 0;
+        public DataTable _dt錯誤訊息總表;
+        public DataTable _dt錯誤訊息明細;
+        public string _str上傳日期_時間;
+        public string _str檔案大小;
+        public string _str實際接收筆數;
+        public string _str有效明細;
+        public string _str有效醫令;
+        public string _str無效明細;
+
 
         public AnalyticsTxt()
         {
             LoadFieldCH();
             LoadErrCodeCH();
+            LoadDt錯誤訊息總表();
+            LoadDt錯誤訊息明細();
+
+
+            _str上傳日期_時間 = "";
+            _str檔案大小 = "";
+            _str實際接收筆數 = "";
+            _str有效明細 = "";
+            _str有效醫令 = "";
+            _str無效明細 = "";
         }
 
         private void LoadFieldCH()
@@ -350,18 +369,265 @@ namespace IC20Analyze
             _dicErrCodeCH.Add("Y016", "符合H1方可改版2.0");
         }
 
+        private void LoadDt錯誤訊息總表()
+        {
+            _dt錯誤訊息總表 = new DataTable();
+            _dt錯誤訊息總表.Columns.Add("Content");
+        }
+
+        private void LoadDt錯誤訊息明細()
+        {
+            _dt錯誤訊息明細 = new DataTable();
+            _dt錯誤訊息明細.Columns.Add("第幾筆");
+            _dt錯誤訊息明細.Columns.Add("身分證M03");
+            _dt錯誤訊息明細.Columns.Add("就醫識別碼M15");
+            _dt錯誤訊息明細.Columns.Add("錯誤原因");
+            _dt錯誤訊息明細.Columns.Add("原始內容");
+        }
+
 
         public void Get全文解析(string str)
         {
+            TxtToTable錯誤訊息總表(str);
+
+            //第一筆檔案資訊
+            if(_dt錯誤訊息總表.pEmpty())
+            {
+                return;
+            }
+
+            string TxtContent = _dt錯誤訊息總表.Rows[0].pCol("Content");
+            // 使用正規表達式尋找匹配的字串
+            string pattern = @"\[.*?\]";
+            MatchCollection matches = Regex.Matches(TxtContent, pattern);
+            if(matches.Count != 12)
+            {
+                //解析失敗
+                return;
+            }
+
+            _str上傳日期_時間 = matches[3].pNullOrTrimTwo();
+            _str檔案大小 = matches[4].pNullOrTrimTwo();
+            _str實際接收筆數 = matches[5].pNullOrTrimTwo();
+            _str有效明細 = matches[9].pNullOrTrimTwo();
+            _str有效醫令 = matches[10].pNullOrTrimTwo();
+            _str無效明細 = matches[11].pNullOrTrimTwo();
+
+            //上傳資料細項
+            int iNum = 0;
+            foreach (var i in _dt錯誤訊息總表.AsEnumerable())
+            {
+                //第0筆是檔案基本資訊，略過不解析
+                if (iNum == 0)
+                {
+                    iNum++;
+                    continue;
+                }
+
+                TxtContent = i.pCol("Content");
+
+
+                if (TxtContent.pEmpty())
+                {
+                    continue;
+                }
+                DataRow row = _dt錯誤訊息明細.NewRow();
+                row["原始內容"] = TxtContent;
+
+                //第幾筆
+                // 使用正規表達式尋找匹配的字串
+                pattern = @"第\[.*?\]筆";
+                matches = Regex.Matches(TxtContent, pattern);
+
+                if (matches.Count > 0)
+                {
+                    string str第幾筆 = matches[0].ToString();
+                    str第幾筆 = str第幾筆.pReplace("第[", "", StringComparison.OrdinalIgnoreCase);
+                    str第幾筆 = str第幾筆.pReplace("]筆", "", StringComparison.OrdinalIgnoreCase);
+
+                    row["第幾筆"] = str第幾筆;
+                }
+
+                //身分證M03
+                pattern = @"M03=\[.*?\]";
+                matches = Regex.Matches(TxtContent, pattern);
+                if (matches.Count > 0)
+                {
+                    string str身分證M03 = matches[0].ToString();
+                    str身分證M03 = str身分證M03.pReplace("M03=[", "", StringComparison.OrdinalIgnoreCase);
+                    str身分證M03 = str身分證M03.pReplace("]", "", StringComparison.OrdinalIgnoreCase);
+
+                    row["身分證M03"] = str身分證M03;
+                }
+
+
+                //就醫識別碼M15
+                pattern = @"M15=\[.*?\]";
+                matches = Regex.Matches(TxtContent, pattern);
+                if (matches.Count > 0)
+                {
+                    string str就醫識別碼M15 = matches[0].ToString();
+                    str就醫識別碼M15 = str就醫識別碼M15.pReplace("M15=[", "", StringComparison.OrdinalIgnoreCase);
+                    str就醫識別碼M15 = str就醫識別碼M15.pReplace("]", "", StringComparison.OrdinalIgnoreCase);
+                    row["就醫識別碼M15"] = str就醫識別碼M15;
+                }
+
+                //錯誤原因
+                // 找到錯誤原因的索引
+                int errorIndex = TxtContent.IndexOf("錯誤原因:");
+                if (errorIndex != -1)
+                {
+                    string result = TxtContent.Substring(errorIndex);
+                    result = result.Replace("錯誤原因:", "");
+                    result = result.Replace(" ", "");
+                    result = result.Replace("\r\n", "");
+                    row["錯誤原因"] = result;
+                }
+                _dt錯誤訊息明細.Rows.Add(row);
+            }
+        }
+
+        public string Run解析(string str)
+        {
+            string[] arrContent = str.pSplit(";");
+
+            string msg = string.Empty;
+            msg += "\r\n\r\n=====================================================================\r\n";
+            foreach (var i in arrContent)
+            {
+                if (i.Length <= 0)
+                {
+                    continue;
+                }
+
+                bool IsMB2 = i.Contains("[");
+                bool IsOKData = i.Contains(":");
+
+                if (str.pEmpty())
+                {
+                    return "沒有內容";
+                }
+
+                if (IsOKData == false)
+                {
+                    return $"資料有問題\r\n{i}";
+                }
+
+                string strField = i.pSplit(":")[0];
+                bool isOK = true;
+                if(IsMB2)
+                {
+                    isOK = _dicFieldCH.ContainsKey(strField.pLeft(3));
+                }
+                else
+                {
+                    isOK = _dicFieldCH.ContainsKey(strField);
+                }
+                
+
+                if (isOK == false)
+                {
+                    return $"資料有問題\r\n{i}";
+                }
+
+
+                string strCode = i.pSplit(":")[1];
+                string strResult = string.Empty;
+                string strFieldCH = string.Empty;
+                string strCodeCH = string.Empty;
+
+                //OpdBasicIC
+                if (IsMB2 == false)
+                {
+                    bool haveFieldKey = _dicFieldCH.ContainsKey(strField);
+                    if (haveFieldKey)
+                    {
+                        strFieldCH = _dicFieldCH[strField];
+                    }
+                    else
+                    {
+                        strFieldCH = $"查無此欄位Key:[{strField}]";
+                    }
+
+                }
+                else
+                {
+                    string tmp = strField.pLeft(3);
+
+                    bool haveFieldKey = _dicFieldCH.ContainsKey(tmp);
+                    if (haveFieldKey)
+                    {
+                        strFieldCH = _dicFieldCH[tmp];
+                    }
+                    else
+                    {
+                        strFieldCH = $"查無此欄位Key:[{strField}]";
+                    }
+                }
+
+                bool haveCodeKey = _dicErrCodeCH.ContainsKey(strCode);
+                if (haveCodeKey == false)
+                {
+                    strCodeCH = $"查無此ErrCode Key:[{strCode}]";
+                }
+                else
+                {
+                    strCodeCH = _dicErrCodeCH[strCode];
+                }
+
+
+                msg += $"{strField} - {strFieldCH}\r\n{strCode} - {strCodeCH}\r\n\r\n";
+            }
+
+            return msg;
+        }
+
+
+        private void TxtToTable錯誤訊息總表(string str)
+        {
+            _dt錯誤訊息總表.Clear();
+
             List<string> List未處理資料 = str.pSplit("===========================================================================").ToList();
+
+            if (List未處理資料[0].ToString().Contains("檢核結果"))
+            {
+                DataRow row = _dt錯誤訊息總表.NewRow();
+                row["Content"] = List未處理資料[0].ToString();
+                _dt錯誤訊息總表.Rows.Add(row);
+            }
 
             foreach (var i in List未處理資料)
             {
                 string pattern = @"第\[\d+\]筆"; // \d+ 表示匹配一個或多個數字
                 bool containsTarget = Regex.IsMatch(i, pattern);
+
+                if (containsTarget)
+                {
+                    DataRow row = _dt錯誤訊息總表.NewRow();
+                    row["Content"] = i;
+                    _dt錯誤訊息總表.Rows.Add(row);
+                }
+            }
+        }
+
+        public void Get總排行數量()
+        {
+            if(_dt錯誤訊息明細.pEmpty())
+            {
+                return;
             }
 
+            foreach (var i in _dt錯誤訊息明細.AsEnumerable())
+            {
+                string Err = i.pCol("錯誤原因");
+
+
+            }
+
+
         }
+
+
 
 
         public void Get總排行數量(string str)

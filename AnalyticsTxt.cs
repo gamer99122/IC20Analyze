@@ -761,9 +761,9 @@ namespace IC20Analyze
             string result = string.Empty;
 
             // MHData
-            SQL = $"\n Select top 1 * From DB_OPD..IC20HMData ";
-            SQL += $"\n where ";
-            SQL += $"\n M15 = '{M15}' ";
+            SQL = $"\r\n Select top 1 * From DB_OPD..IC20HMData ";
+            SQL += $"\r\n where ";
+            SQL += $"\r\n M15 = '{M15}'; ";
             result += SQL;
 
             DataTable dt = _db.executesqldt(SQL, _conn);
@@ -772,9 +772,9 @@ namespace IC20Analyze
             {
                 //DDate
                 string HMUUID = dt.pRowCol("UUID");
-                SQL = $"\n\n Select top 100 * From DB_OPD..IC20DData ";
-                SQL += $"\n where ";
-                SQL += $"\n HMUUID = '{HMUUID}' ";
+                SQL = $"\r\n\r\n Select top 100 * From DB_OPD..IC20DData ";
+                SQL += $"\r\n where ";
+                SQL += $"\r\n HMUUID = '{HMUUID}'; ";
                 result += SQL;
             }
             else
@@ -783,9 +783,9 @@ namespace IC20Analyze
             }
 
             //OpdBasicICTbl
-            SQL = $"\n\n select top 100 * from DB_OPD..OpdBasicICTbl ";
-            SQL += $"\n where ";
-            SQL += $"\n M15 = '{M15}' ";
+            SQL = $"\r\n\r\n select top 100 * from DB_OPD..OpdBasicICTbl ";
+            SQL += $"\r\n where ";
+            SQL += $"\r\n M15 = '{M15}'; ";
             result += SQL;
             dt = _db.executesqldt(SQL, _conn);
 
@@ -797,14 +797,14 @@ namespace IC20Analyze
                 string Room = dt.pRowCol("chOp1Room");
                 string No = dt.pRowCol("intOp1No");
 
-                SQL = $"\n\n select top 100 * from DB_OPD..OpdBasicICMB2Tbl ";
-                SQL += $"\n where ";
-                SQL += $"\n chOp1Date = '{Date}' And chOp1Time = '{Time}' And chOp1Room = '{Room}' And intOp1No = '{No}' ";
+                SQL = $"\r\n\r\n select top 100 * from DB_OPD..OpdBasicICMB2Tbl ";
+                SQL += $"\r\n where ";
+                SQL += $"\r\n chOp1Date = '{Date}' And chOp1Time = '{Time}' And chOp1Room = '{Room}' And intOp1No = '{No}'; ";
                 result += SQL;
             }
             else
             {
-                result += "\n OpdBasicICMB2Tbl 沒有資料";
+                result += "\r\n OpdBasicICMB2Tbl 沒有資料";
             }
 
             return result;

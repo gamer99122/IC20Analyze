@@ -327,6 +327,7 @@ namespace IC20Analyze
                 msg += "\r\n\r\n=====================================================================\r\n";
                 string strM15 = selectedRow.Cells["就醫識別碼"].Value.ToString();
                 msg += _anaTxt.GetSQL(strM15);
+                msg += "\r\n\r\n";
 
                 txtOrign.Text = msg;
             }

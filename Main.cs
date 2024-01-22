@@ -31,7 +31,7 @@ namespace IC20Analyze
             InitializeComponent();
 
 
-            chkProSearch.Checked = true;
+            chkProSearch.Checked =  true;
 
         }
 

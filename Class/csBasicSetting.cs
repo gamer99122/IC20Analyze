@@ -8,7 +8,7 @@ namespace IC20Analyze.Class
 {
     public class csBasicSetting
     {
-        public string GetFilePath = @"D:\aa_專案\17_小專案\e.IC2.0上傳\Check";
+        public string GetFilePath = @"H:\HIS2\IC20Download";
 
 
     }

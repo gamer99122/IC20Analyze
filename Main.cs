@@ -41,7 +41,7 @@ namespace IC20Analyze
             txtPath.Text = _basSetting.GetFilePath;
             GetFiles();
 
-            this.pSetAutoReSize(true, true);     //一定要在最後
+            //this.pSetAutoReSize(true);     //一定要在最後
         }
 
 
@@ -92,35 +92,56 @@ namespace IC20Analyze
 
             string str = txtOrign.Text.pSQLValidator();
 
-            if (chkProSearch.Checked == true)
-            {
-                dataGridView1.Visible = true;
 
-                _anaTxt.Get總排行數量(str);
-                DataTable dt總排行數量 = _anaTxt._dt總排行數量;
+            dataGridView1.Visible = true;
 
-                dataGridView1.DataSource = dt總排行數量;
-            }
-            else
-            {
-                richTextBox1.Visible = true;
-                str = str.Replace("錯誤原因:", "");
-                str = str.Replace(" ", "");
-                str = str.Replace("\r\n", "");
+            _anaTxt.Get全文解析(str);
 
-                string[] arrContent = str.pSplit(";");
+            label8.Text = _anaTxt._str上傳日期_時間;
+            label5.Text = _anaTxt._str檔案大小;
+            label7.Text = _anaTxt._str實際接收筆數;
+            label10.Text = _anaTxt._str有效明細;
+            label12.Text = _anaTxt._str有效醫令;
+            label14.Text = _anaTxt._str無效明細;
 
-                string OutPut = string.Empty;
-                richTextBox1.Clear();
-                foreach (var i in arrContent)
-                {
-                    if (i.Length <= 0)
-                    {
-                        continue;
-                    }
-                    Run解析(i);
-                }
-            }
+
+            DataTable dt = _anaTxt._dt錯誤訊息明細;
+
+            bindingSource = new BindingSource();
+            bindingSource.DataSource = dt;
+            dataGridView1.DataSource = dt;
+            dataGridView1.pColorRow();
+
+
+            //if (chkProSearch.Checked == true)
+            //{
+            //    dataGridView1.Visible = true;
+
+            //    _anaTxt.Get總排行數量(str);
+            //    DataTable dt總排行數量 = _anaTxt._dt總排行數量;
+
+            //    dataGridView1.DataSource = dt總排行數量;
+            //}
+            //else
+            //{
+            //    richTextBox1.Visible = true;
+            //    str = str.Replace("錯誤原因:", "");
+            //    str = str.Replace(" ", "");
+            //    str = str.Replace("\r\n", "");
+
+            //    string[] arrContent = str.pSplit(";");
+
+            //    string OutPut = string.Empty;
+            //    richTextBox1.Clear();
+            //    foreach (var i in arrContent)
+            //    {
+            //        if (i.Length <= 0)
+            //        {
+            //            continue;
+            //        }
+            //        Run解析(i);
+            //    }
+            //}
 
             btnAnalyze.Enabled = true;
         }
@@ -284,5 +305,108 @@ namespace IC20Analyze
             Process.Start("explorer.exe", folderPath);
         }
 
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            SearchWord();
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                string msg = string.Empty;
+                DataGridViewRow selectedRow = dataGridView1.Rows[e.RowIndex];
+                string column1Value = selectedRow.Cells["原始內容"].Value.ToString();
+                msg += column1Value;
+                
+
+
+                string column錯誤原因 = selectedRow.Cells["錯誤原因"].Value.ToString();
+
+                AnalyticsTxt analyticsTxt = new AnalyticsTxt();
+                msg += analyticsTxt.Run解析(column錯誤原因);
+
+                txtOrign.Text = msg;
+
+            }
+        }
+
+        private void txtSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                SearchAndFocus();
+                //SearchWord();
+            }
+        }
+
+        public void SearchWord()
+        {
+            string KeyWord = txtSearch.Text.pSQLValidator();
+
+            if (KeyWord.Length < 5)
+            {
+                return;
+            }
+
+            DataTable dt = (DataTable)dataGridView1.DataSource;
+
+            if (dt.pEmpty())
+            {
+                return;
+            }
+
+            dataGridView1.pSearch(KeyWord);
+        }
+
+        private int currentRowIndex = -1;
+        private BindingSource bindingSource;
+
+        private void SearchAndFocus()
+        {
+            string KeyWord = txtSearch.Text.pSQLValidator();
+
+            if (KeyWord.Length < 2)
+            {
+                return;
+            }
+
+            DataTable dt = (DataTable)dataGridView1.DataSource;
+            var query = from row in dt.AsEnumerable()
+                        where row.ItemArray.Any(field => field.ToString().Contains(KeyWord))
+                        select row;
+
+            if (query.Any())
+            {
+                DataRow[] matchingRows = query.ToArray();
+                if (currentRowIndex == -1 || currentRowIndex == matchingRows.Length - 1)
+                {
+                    currentRowIndex = 0;
+                }
+                else
+                {
+                    currentRowIndex++;
+                }
+                if (currentRowIndex > matchingRows.Length)
+                {
+                    currentRowIndex = 0;
+                }
+
+                DataRow selectedRow = matchingRows[currentRowIndex];
+                int rowIndex = dt.Rows.IndexOf(selectedRow);
+                dataGridView1.CurrentCell = dataGridView1.Rows[rowIndex].Cells[0];
+            }
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            button1.Enabled = false;
+            SetAnalyzeText();
+            _anaTxt.Get總排行數量();
+            DataTable dt = _anaTxt._dt總排行數量;
+
+            button1.Enabled = true;
+        }
     }
 }

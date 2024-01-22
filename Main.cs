@@ -14,7 +14,7 @@ using HIS2Module.ControlObjectCustom;
 using HIS2Module.UtilExtension;
 using IC20Analyze.Class;
 
-namespace IC20Analyze
+namespace IC20Analyze 
 {
     public partial class Main : Form
     {

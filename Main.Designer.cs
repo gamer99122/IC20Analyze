@@ -29,7 +29,7 @@ namespace IC20Analyze
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             this.chkProSearch = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnAnalyze = new System.Windows.Forms.Button();
@@ -66,10 +66,15 @@ namespace IC20Analyze
             this.panel2 = new System.Windows.Forms.Panel();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.sourceColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Cnt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.label17 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
             // 
             // chkProSearch
@@ -117,14 +122,14 @@ namespace IC20Analyze
             this.就醫識別碼,
             this.錯誤原因,
             this.原始內容});
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle12;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
@@ -177,6 +182,7 @@ namespace IC20Analyze
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.label17);
             this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.txtSearch);
             this.panel1.Controls.Add(this.label16);
@@ -209,7 +215,7 @@ namespace IC20Analyze
             // 
             // txtSearch
             // 
-            this.txtSearch.Location = new System.Drawing.Point(67, 155);
+            this.txtSearch.Location = new System.Drawing.Point(118, 154);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(288, 29);
             this.txtSearch.TabIndex = 82;
@@ -428,6 +434,7 @@ namespace IC20Analyze
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.dataGridView2);
             this.panel2.Controls.Add(this.dataGridView1);
             this.panel2.Controls.Add(this.richTextBox1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -447,13 +454,53 @@ namespace IC20Analyze
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(544, 168);
+            this.button1.Location = new System.Drawing.Point(601, 170);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(169, 32);
             this.button1.TabIndex = 83;
             this.button1.Text = "最多錯誤原因排名";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // dataGridView2
+            // 
+            this.dataGridView2.AllowUserToAddRows = false;
+            this.dataGridView2.AllowUserToDeleteRows = false;
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.sourceColumn,
+            this.Cnt});
+            this.dataGridView2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView2.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.ReadOnly = true;
+            this.dataGridView2.RowTemplate.Height = 24;
+            this.dataGridView2.Size = new System.Drawing.Size(465, 353);
+            this.dataGridView2.TabIndex = 13;
+            // 
+            // sourceColumn
+            // 
+            this.sourceColumn.DataPropertyName = "sourceColumn";
+            this.sourceColumn.HeaderText = "sourceColumn";
+            this.sourceColumn.Name = "sourceColumn";
+            this.sourceColumn.ReadOnly = true;
+            this.sourceColumn.Width = 300;
+            // 
+            // Cnt
+            // 
+            this.Cnt.DataPropertyName = "Cnt";
+            this.Cnt.HeaderText = "Cnt";
+            this.Cnt.Name = "Cnt";
+            this.Cnt.ReadOnly = true;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(3, 163);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(105, 20);
+            this.label17.TabIndex = 84;
+            this.label17.Text = "●全文搜尋：";
             // 
             // Main
             // 
@@ -475,6 +522,7 @@ namespace IC20Analyze
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -517,6 +565,10 @@ namespace IC20Analyze
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn sourceColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Cnt;
+        private System.Windows.Forms.Label label17;
     }
 }
 

@@ -319,7 +319,7 @@ namespace IC20Analyze
                 DataGridViewRow selectedRow = dataGridView1.Rows[e.RowIndex];
                 string column1Value = selectedRow.Cells["原始內容"].Value.ToString();
                 msg += column1Value;
-                
+
                 string column錯誤原因 = selectedRow.Cells["錯誤原因"].Value.ToString();
                 msg += "\r\n\r\n=====================================================================\r\n";
                 msg += _anaTxt.Run解析(column錯誤原因);
@@ -329,7 +329,6 @@ namespace IC20Analyze
                 msg += _anaTxt.GetSQL(strM15);
 
                 txtOrign.Text = msg;
-
             }
         }
 

@@ -94,6 +94,7 @@ namespace IC20Analyze
 
 
             dataGridView1.Visible = true;
+            dataGridView2.Visible = false;
 
             _anaTxt.Get全文解析(str);
 
@@ -402,10 +403,27 @@ namespace IC20Analyze
         private void button1_Click(object sender, EventArgs e)
         {
             button1.Enabled = false;
-            SetAnalyzeText();
-            _anaTxt.Get總排行數量();
-            DataTable dt = _anaTxt._dt總排行數量;
 
+
+
+            try
+            {
+                SetAnalyzeText();
+                string str = _dicDoc[cmbXMLFile.Text];
+                _anaTxt.Get總排行數量(str);
+                DataTable dt = _anaTxt._dt總排行數量;
+
+                dataGridView2.DataSource = dt;
+            }
+            catch (Exception ex)
+            {
+                $"發生錯誤:{ex.ToString()}".pShow();
+                button1.Enabled = true;
+            }
+
+            dataGridView2.Visible = true;
+            dataGridView1.Visible = false;
+            txtOrign.Text = _dicDoc[cmbXMLFile.Text];
             button1.Enabled = true;
         }
     }

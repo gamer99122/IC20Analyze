@@ -219,7 +219,6 @@ namespace IC20Analyze
             if (e.KeyCode == Keys.Enter)
             {
                 SearchAndFocus();
-                //SearchWord();
             }
         }
 
@@ -255,13 +254,11 @@ namespace IC20Analyze
             }
 
             DataTable dt = (DataTable)dataGridView1.DataSource;
-            if (dt.Columns.Contains("原始內容"))
-            {
-                dt.Columns.Remove("原始內容");
-            } 
 
             var query = from row in dt.AsEnumerable()
-                        where row.ItemArray.Any(field => field.ToString().Contains(KeyWord))
+                        where row.Table.Columns.Cast<DataColumn>()
+                            .Where(col => col.ColumnName != "原始內容")
+                            .Any(col => row[col].ToString().Contains(KeyWord))
                         select row;
 
             if (query.Any())

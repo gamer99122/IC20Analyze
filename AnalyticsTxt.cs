@@ -744,17 +744,25 @@ namespace IC20Analyze
             }
             else
             {
-                string tmp = F欄位代碼.pLeft(3);
 
-                bool haveFieldKey = _dicFieldCH.ContainsKey(tmp);
-                if (haveFieldKey)
+                if (F欄位代碼.Contains("MB2"))
                 {
-                    F欄位代碼 = tmp;
-                    F欄位中文 = _dicFieldCH[tmp];
+                    F欄位中文 = "MB2";
                 }
                 else
                 {
-                    F欄位中文 = $"查無此欄位Key:[{F欄位代碼}]";
+                    string tmp = F欄位代碼.pLeft(3);
+
+                    bool haveFieldKey = _dicFieldCH.ContainsKey(tmp);
+                    if (haveFieldKey)
+                    {
+                        F欄位代碼 = tmp;
+                        F欄位中文 = _dicFieldCH[tmp];
+                    }
+                    else
+                    {
+                        F欄位中文 = $"查無此欄位Key:[{F欄位代碼}]";
+                    }
                 }
             }
 

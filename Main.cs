@@ -36,6 +36,7 @@ namespace IC20Analyze
         private void btnAnalyze_Click(object sender, EventArgs e)
         {
             SetAnalyzeText();
+			
         }
 
         private void btnFileReload_Click(object sender, EventArgs e)

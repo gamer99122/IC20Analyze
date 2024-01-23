@@ -1,0 +1,30 @@
+
+; Alt + V : SQL View with Table Schema
+!v::
+SetTitleMatchMode, 2
+IfWinActive, SQL Server Management Studio
+{
+  current_clipboard = %Clipboard%
+  Send ^c 
+  ClipWait, 2
+
+  WinGetTitle, SSMSTitle
+  run \\Hisupdatea\HIS2Tools\SchemaView.exe -t="%SSMSTitle%",,,OutputVarPID
+  WinWait, ahk_pid %OutputVarPID%
+  
+  ;Clipboard = %current_clipboard%
+return
+}
+else IfWinActive, IC20Analyze
+{
+  current_clipboard = %Clipboard%
+  Send ^c 
+  ClipWait, 2
+
+  WinGetTitle, SSMSTitle
+  run \\Hisupdatea\HIS2Tools\SchemaView.exe -t="%SSMSTitle%",,,OutputVarPID
+  WinWait, ahk_pid %OutputVarPID%
+  
+  ;Clipboard = %current_clipboard%
+return
+}

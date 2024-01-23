@@ -533,6 +533,11 @@ namespace IC20Analyze
                     isOK = _dicFieldCH.ContainsKey(strField);
                 }
 
+                if (strField.Contains("MB2"))
+                {
+                    isOK = true;
+                }
+
 
                 if (isOK == false)
                 {
@@ -561,16 +566,23 @@ namespace IC20Analyze
                 }
                 else
                 {
-                    string tmp = strField.pLeft(3);
-
-                    bool haveFieldKey = _dicFieldCH.ContainsKey(tmp);
-                    if (haveFieldKey)
+                    if(strField.Contains("MB2"))
                     {
-                        strFieldCH = _dicFieldCH[tmp];
+                        strFieldCH = "MB2";
                     }
                     else
                     {
-                        strFieldCH = $"查無此欄位Key:[{strField}]";
+                        string tmp = strField.pLeft(3);
+
+                        bool haveFieldKey = _dicFieldCH.ContainsKey(tmp);
+                        if (haveFieldKey)
+                        {
+                            strFieldCH = _dicFieldCH[tmp];
+                        }
+                        else
+                        {
+                            strFieldCH = $"查無此欄位Key:[{strField}]";
+                        }
                     }
                 }
 

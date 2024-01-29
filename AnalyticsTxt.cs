@@ -801,7 +801,7 @@ namespace IC20Analyze
             }
             else
             {
-                result += "\n DDate 沒有資料";
+                result += "\r\n -- DDate 沒有資料";
             }
 
             //OpdBasicICTbl
@@ -840,7 +840,7 @@ namespace IC20Analyze
             }
             else
             {
-                result += "\r\n OpdBasicICMB2Tbl 沒有資料";
+                result += "\r\n -- OpdBasicICMB2Tbl 沒有資料";
             }
 
             return result;

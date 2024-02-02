@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.34301.259
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IC20Analyze", "IC20Analyze.csproj", "{9E6011C7-B41C-4B5B-96A9-39AB6C7A7A64}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HIS2Module64", "..\HIS2Module\HIS2Module64.csproj", "{83199EC3-3AB2-469D-90E1-908D758AC1D4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HIS2Module", "..\HIS2Module\HIS2Module.csproj", "{83199EC3-3AB2-469D-90E1-908D758AC1D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

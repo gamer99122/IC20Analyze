@@ -566,7 +566,7 @@ namespace IC20Analyze
                 }
                 else
                 {
-                    if(strField.Contains("MB2"))
+                    if (strField.Contains("MB2"))
                     {
                         strFieldCH = "MB2";
                     }
@@ -777,8 +777,13 @@ namespace IC20Analyze
             }
         }
 
-        public string GetSQL(string M15)
+        public string GetSQL(string M15, bool IsCreatSQL)
         {
+            if (IsCreatSQL == false)
+            {
+                return "";
+            }
+
             string SQL = string.Empty;
             string result = string.Empty;
 

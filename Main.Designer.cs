@@ -66,9 +66,10 @@ namespace IC20Analyze
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.panel2 = new System.Windows.Forms.Panel();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.sourceColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cnt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.chkCreateSQL = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -160,6 +161,7 @@ namespace IC20Analyze
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.chkCreateSQL);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.label17);
             this.panel1.Controls.Add(this.btnErrRanking);
@@ -464,15 +466,6 @@ namespace IC20Analyze
             this.dataGridView2.Size = new System.Drawing.Size(465, 380);
             this.dataGridView2.TabIndex = 13;
             // 
-            // richTextBox1
-            // 
-            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox1.Location = new System.Drawing.Point(0, 0);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(465, 380);
-            this.richTextBox1.TabIndex = 12;
-            this.richTextBox1.Text = "";
-            // 
             // sourceColumn
             // 
             this.sourceColumn.DataPropertyName = "sourceColumn";
@@ -488,6 +481,26 @@ namespace IC20Analyze
             this.Cnt.Name = "Cnt";
             this.Cnt.ReadOnly = true;
             this.Cnt.Width = 80;
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox1.Location = new System.Drawing.Point(0, 0);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(465, 380);
+            this.richTextBox1.TabIndex = 12;
+            this.richTextBox1.Text = "";
+            // 
+            // chkCreateSQL
+            // 
+            this.chkCreateSQL.AutoSize = true;
+            this.chkCreateSQL.Location = new System.Drawing.Point(429, 159);
+            this.chkCreateSQL.Name = "chkCreateSQL";
+            this.chkCreateSQL.Size = new System.Drawing.Size(122, 24);
+            this.chkCreateSQL.TabIndex = 86;
+            this.chkCreateSQL.Text = "懶人SQL語法";
+            this.chkCreateSQL.UseVisualStyleBackColor = true;
+            this.chkCreateSQL.CheckedChanged += new System.EventHandler(this.chkCreateSQL_CheckedChanged);
             // 
             // Main
             // 
@@ -554,6 +567,7 @@ namespace IC20Analyze
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridViewTextBoxColumn sourceColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Cnt;
+        private System.Windows.Forms.CheckBox chkCreateSQL;
     }
 }
 

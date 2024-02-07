@@ -21,6 +21,7 @@ namespace IC20Analyze
     {
         AnalyticsTxt _anaTxt = new AnalyticsTxt();
         csBasicSetting _basSetting = new csBasicSetting();
+        public bool _IsCreateSQL = false;
 
         public Main()
         {
@@ -31,6 +32,7 @@ namespace IC20Analyze
         {
             txtPath.Text = _basSetting.GetFilePath;
             GetFiles();
+            GetCreateSQL();
         }
 
         private void btnAnalyze_Click(object sender, EventArgs e)
@@ -207,7 +209,7 @@ namespace IC20Analyze
 
                 msg += "\r\n\r\n=====================================================================\r\n";
                 string strM15 = selectedRow.Cells["就醫識別碼"].Value.ToString();
-                msg += _anaTxt.GetSQL(strM15);
+                msg += _anaTxt.GetSQL(strM15, _IsCreateSQL);
                 msg += "\r\n\r\n";
 
                 txtOrign.Text = msg;
@@ -387,6 +389,44 @@ namespace IC20Analyze
             p.StandardInput.WriteLine($"del \"{path}\"");//呼叫工作管理員
             p.WaitForExit(100);
             p.Close();
+        }
+
+        public void GetCreateSQL()
+        {
+            // 獲取應用程序的基本目錄路徑
+            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            string Filetxt = "CreateSQL.txt";
+            string FullPath = $@"{baseDirectory}{Filetxt}";
+
+            _IsCreateSQL = File.Exists(FullPath) ? true : false;
+
+            chkCreateSQL.Checked = _IsCreateSQL;
+        }
+
+        private void chkCreateSQL_CheckedChanged(object sender, EventArgs e)
+        {
+            // 獲取應用程序的基本目錄路徑
+            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            string Filetxt = "CreateSQL.txt";
+            string FullPath = $@"{baseDirectory}{Filetxt}";
+
+            // 自動產生SQL
+            if (chkCreateSQL.Checked == true && File.Exists(FullPath) == false)
+            {
+                _IsCreateSQL = true;
+                using (StreamWriter writer = File.CreateText(FullPath))
+                {
+                    //....
+                }
+            }
+
+            // 取消產生SQL
+            if (chkCreateSQL.Checked == false && File.Exists(FullPath) == true)
+            {
+                _IsCreateSQL = false;
+                File.Delete(FullPath);
+            }
+
         }
     }
 }

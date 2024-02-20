@@ -810,19 +810,19 @@ namespace IC20Analyze
             }
 
             //OpdBasicICTbl
+            string Date = dt.pRowCol("RegDate");
+            string Time = dt.pRowCol("RegTime");
+            string Room = dt.pRowCol("RegRoom");
+            string No = dt.pRowCol("RegNo");
             SQL = $"\r\n\r\n select top 100 * from DB_OPD..OpdBasicICTbl ";
             SQL += $"\r\n where ";
-            SQL += $"\r\n M15 = '{M15}'; ";
+            SQL += $"\r\n chOp1Date='{Date}' And chOp1Time='{Time}' And chOp1Room='{Room}' And intOp1No='{No}' ";
+            SQL += $"\r\n And M15 = '{M15}'; ";
             result += SQL;
             dt = _db.executesqldt(SQL, _conn);
 
             if (dt.pAny())
             {
-                //OpdBasicICMB2Tbl
-                string Date = dt.pRowCol("chOp1Date");
-                string Time = dt.pRowCol("chOp1Time");
-                string Room = dt.pRowCol("chOp1Room");
-                string No = dt.pRowCol("intOp1No");
 
                 SQL = $"\r\n\r\n select top 100 * from DB_OPD..OpdBasicICMB2Tbl ";
                 SQL += $"\r\n where ";

@@ -194,28 +194,6 @@ namespace IC20Analyze
             //SearchWord();
         }
 
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
-            {
-                string msg = string.Empty;
-                DataGridViewRow selectedRow = dataGridView1.Rows[e.RowIndex];
-                string column1Value = selectedRow.Cells["原始內容"].Value.ToString();
-                msg += column1Value;
-
-                string column錯誤原因 = selectedRow.Cells["錯誤原因"].Value.ToString();
-                msg += "\r\n\r\n=====================================================================\r\n";
-                msg += _anaTxt.Run解析(column錯誤原因);
-
-                msg += "\r\n\r\n=====================================================================\r\n";
-                string strM15 = selectedRow.Cells["就醫識別碼"].Value.ToString();
-                msg += _anaTxt.GetSQL(strM15, _IsCreateSQL);
-                msg += "\r\n\r\n";
-
-                txtOrign.Text = msg;
-            }
-        }
-
         private void txtSearch_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -427,6 +405,31 @@ namespace IC20Analyze
                 File.Delete(FullPath);
             }
 
+        }
+
+        private void ShowDetail(int rowIndex)
+        {
+            string msg = string.Empty;
+            DataGridViewRow selectedRow = dataGridView1.Rows[rowIndex];
+            string column1Value = selectedRow.Cells["原始內容"].Value.ToString();
+            msg += column1Value;
+
+            string column錯誤原因 = selectedRow.Cells["錯誤原因"].Value.ToString();
+            msg += "\r\n\r\n=====================================================================\r\n";
+            msg += _anaTxt.Run解析(column錯誤原因);
+
+            msg += "\r\n\r\n=====================================================================\r\n";
+            string strM15 = selectedRow.Cells["就醫識別碼"].Value.ToString();
+            msg += _anaTxt.GetSQL(strM15, _IsCreateSQL);
+            msg += "\r\n\r\n";
+
+            txtOrign.Text = msg;
+        }
+
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+            int rowIndex = dataGridView1.CurrentCell.RowIndex;
+            ShowDetail(rowIndex);
         }
     }
 }

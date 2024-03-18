@@ -38,6 +38,7 @@ namespace IC20Analyze
             this.錯誤原因 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.原始內容 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.chkCreateSQL = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.btnErrRanking = new System.Windows.Forms.Button();
@@ -69,7 +70,6 @@ namespace IC20Analyze
             this.sourceColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cnt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.chkCreateSQL = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -116,7 +116,7 @@ namespace IC20Analyze
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.Size = new System.Drawing.Size(465, 380);
             this.dataGridView1.TabIndex = 11;
-            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
             // 
             // 第幾筆
             // 
@@ -191,6 +191,17 @@ namespace IC20Analyze
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(897, 198);
             this.panel1.TabIndex = 13;
+            // 
+            // chkCreateSQL
+            // 
+            this.chkCreateSQL.AutoSize = true;
+            this.chkCreateSQL.Location = new System.Drawing.Point(429, 159);
+            this.chkCreateSQL.Name = "chkCreateSQL";
+            this.chkCreateSQL.Size = new System.Drawing.Size(122, 24);
+            this.chkCreateSQL.TabIndex = 86;
+            this.chkCreateSQL.Text = "懶人SQL語法";
+            this.chkCreateSQL.UseVisualStyleBackColor = true;
+            this.chkCreateSQL.CheckedChanged += new System.EventHandler(this.chkCreateSQL_CheckedChanged);
             // 
             // label1
             // 
@@ -490,17 +501,6 @@ namespace IC20Analyze
             this.richTextBox1.Size = new System.Drawing.Size(465, 380);
             this.richTextBox1.TabIndex = 12;
             this.richTextBox1.Text = "";
-            // 
-            // chkCreateSQL
-            // 
-            this.chkCreateSQL.AutoSize = true;
-            this.chkCreateSQL.Location = new System.Drawing.Point(429, 159);
-            this.chkCreateSQL.Name = "chkCreateSQL";
-            this.chkCreateSQL.Size = new System.Drawing.Size(122, 24);
-            this.chkCreateSQL.TabIndex = 86;
-            this.chkCreateSQL.Text = "懶人SQL語法";
-            this.chkCreateSQL.UseVisualStyleBackColor = true;
-            this.chkCreateSQL.CheckedChanged += new System.EventHandler(this.chkCreateSQL_CheckedChanged);
             // 
             // Main
             // 

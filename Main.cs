@@ -428,8 +428,11 @@ namespace IC20Analyze
 
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
-            int rowIndex = dataGridView1.CurrentCell.RowIndex;
-            ShowDetail(rowIndex);
+            if(dataGridView1.CurrentCell != null && dataGridView1.CurrentCell.RowIndex != -1)
+            {
+                int rowIndex = dataGridView1.CurrentCell.RowIndex;
+                ShowDetail(rowIndex);
+            }
         }
     }
 }

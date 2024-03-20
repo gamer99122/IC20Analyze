@@ -809,6 +809,12 @@ namespace IC20Analyze
                 result += "\r\n -- DDate 沒有資料";
             }
 
+            if(dt.pEmpty())
+            {
+                result += "\r\n -- OpdBasicICTbl 沒有資料";
+                return result;
+            }
+
             //OpdBasicICTbl
             string Date = dt.pRowCol("RegDate");
             string Time = dt.pRowCol("RegTime");

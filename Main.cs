@@ -100,7 +100,60 @@ namespace IC20Analyze
             label14.Text = _anaTxt._str無效明細;
 
 
+
+
+
+
             DataTable dt = _anaTxt._dt錯誤訊息明細;
+
+            bool IsExclude = chkExcludeM16.Checked;
+
+            //缺少M16
+            List<string> m16Errors = new List<string>();
+            m16Errors.Add("M16:AA;");
+            m16Errors.Add("M16:AA;M33:D024;");
+            m16Errors.Add("M16:D051;M34:D024;");
+
+
+            //雙軌期間，如無合併其他錯誤，本筆仍會收載
+            List<string> m16OKOK = new List<string>();
+            m16OKOK.Add("M16:D051;");
+            m16OKOK.Add("M16:D051;M33:D024;");
+
+            int iEmptyM16 = 0;
+            int iAnotherM16 = 0;
+
+            var rowsToRemove = dt.AsEnumerable()
+                                .Where(row => m16Errors.Contains(row.Field<string>("錯誤原因")))
+                                .ToList();
+            foreach (var rowToRemove in rowsToRemove)
+            {
+                iEmptyM16 += 1;
+
+                if (IsExclude)
+                {
+                    dt.Rows.Remove(rowToRemove);
+                }
+            }
+
+
+            var rowsToRemove1 = dt.AsEnumerable()
+                                .Where(row => m16OKOK.Contains(row.Field<string>("錯誤原因")))
+                                .ToList();
+            foreach (var rowToRemove1 in rowsToRemove1)
+            {
+                iAnotherM16 += 1;
+
+                if (IsExclude)
+                {
+                    dt.Rows.Remove(rowToRemove1);
+                }
+            }
+
+            string strTmp有效明細 = _anaTxt._str有效明細.pReplace("[", "", StringComparison.OrdinalIgnoreCase).pReplace("]", "", StringComparison.OrdinalIgnoreCase);
+            int int有效明細 = strTmp有效明細.pToInt();
+            int New有效明細 = iEmptyM16 + int有效明細 - iAnotherM16;
+            label18.Text = $"[{iEmptyM16}] + [{strTmp有效明細.pNullOrTrim()} - {iAnotherM16}] = [{New有效明細}]";
 
             bindingSource = new BindingSource();
             bindingSource.DataSource = dt;
@@ -275,6 +328,27 @@ namespace IC20Analyze
                 _anaTxt.Get總排行數量(str);
                 DataTable dt = _anaTxt._dt總排行數量;
 
+
+                List<string> LByPass = new List<string>();
+                LByPass.Add("M16 - 原就醫識別碼 *\r\nAA - 欄位資料必填寫");
+                LByPass.Add("M16 - 原就醫識別碼 *\r\nD051 - 原處方服務機構代碼為本院，M16查無原就醫紀錄或原就醫紀錄之院所代號非M17。(雙軌期間，如無合併其他錯誤，本筆仍會收載)");
+                LByPass.Add("M17 - 原處方服務機構代號 *\r\nAA - 欄位資料必填寫");
+                LByPass.Add("M19 - 原就診日期時間 *\r\nAA - 欄位資料必填寫");
+                LByPass.Add("M33 - 已調劑連續處方箋次數 *\r\nD024 - 查無開立端上傳之慢性病連續處方箋料，不可執行。無處方聯次資料，不可執行。(雙軌期間，如無合併其他錯誤，本筆仍會收載)");
+                LByPass.Add("M34 - 已調劑連續處方箋次數 *\r\nD024 - 查無開立端上傳之慢性病連續處方箋料，不可執行。無處方聯次資料，不可執行。(雙軌期間，如無合併其他錯誤，本筆仍會收載)");
+                if (chkExcludeM16.Checked)
+                {
+                    var rowsToRemove = dt.AsEnumerable()
+                    .Where(row => LByPass.Contains(row.Field<string>("sourceColumn")))
+                    .ToList();
+                    foreach (var rowToRemove in rowsToRemove)
+                    {
+                        dt.Rows.Remove(rowToRemove);
+                    }
+                }
+
+
+
                 dataGridView2.DataSource = dt;
             }
             catch (Exception ex)
@@ -428,7 +502,7 @@ namespace IC20Analyze
 
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
-            if(dataGridView1.CurrentCell != null && dataGridView1.CurrentCell.RowIndex != -1)
+            if (dataGridView1.CurrentCell != null && dataGridView1.CurrentCell.RowIndex != -1)
             {
                 int rowIndex = dataGridView1.CurrentCell.RowIndex;
                 ShowDetail(rowIndex);

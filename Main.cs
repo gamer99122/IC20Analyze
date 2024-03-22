@@ -323,31 +323,7 @@ namespace IC20Analyze
 
             try
             {
-                SetAnalyzeText();
-                string str = _dicDoc[cmbXMLFile.Text];
-                _anaTxt.Get總排行數量(str);
-                DataTable dt = _anaTxt._dt總排行數量;
-
-
-                List<string> LByPass = new List<string>();
-                LByPass.Add("M16 - 原就醫識別碼 *\r\nAA - 欄位資料必填寫");
-                LByPass.Add("M16 - 原就醫識別碼 *\r\nD051 - 原處方服務機構代碼為本院，M16查無原就醫紀錄或原就醫紀錄之院所代號非M17。(雙軌期間，如無合併其他錯誤，本筆仍會收載)");
-                LByPass.Add("M17 - 原處方服務機構代號 *\r\nAA - 欄位資料必填寫");
-                LByPass.Add("M19 - 原就診日期時間 *\r\nAA - 欄位資料必填寫");
-                LByPass.Add("M33 - 已調劑連續處方箋次數 *\r\nD024 - 查無開立端上傳之慢性病連續處方箋料，不可執行。無處方聯次資料，不可執行。(雙軌期間，如無合併其他錯誤，本筆仍會收載)");
-                LByPass.Add("M34 - 已調劑連續處方箋次數 *\r\nD024 - 查無開立端上傳之慢性病連續處方箋料，不可執行。無處方聯次資料，不可執行。(雙軌期間，如無合併其他錯誤，本筆仍會收載)");
-                if (chkExcludeM16.Checked)
-                {
-                    var rowsToRemove = dt.AsEnumerable()
-                    .Where(row => LByPass.Contains(row.Field<string>("sourceColumn")))
-                    .ToList();
-                    foreach (var rowToRemove in rowsToRemove)
-                    {
-                        dt.Rows.Remove(rowToRemove);
-                    }
-                }
-
-
+                DataTable dt = GetErrRanking();
 
                 dataGridView2.DataSource = dt;
             }
@@ -507,6 +483,107 @@ namespace IC20Analyze
                 int rowIndex = dataGridView1.CurrentCell.RowIndex;
                 ShowDetail(rowIndex);
             }
+        }
+
+        public DataTable GetErrRanking()
+        {
+            SetAnalyzeText();
+            string str = _dicDoc[cmbXMLFile.Text];
+            _anaTxt.Get總排行數量(str);
+            DataTable dt = _anaTxt._dt總排行數量;
+
+            List<string> LByPass = new List<string>();
+            LByPass.Add("M16 - 原就醫識別碼 *\r\nAA - 欄位資料必填寫");
+            LByPass.Add("M16 - 原就醫識別碼 *\r\nD051 - 原處方服務機構代碼為本院，M16查無原就醫紀錄或原就醫紀錄之院所代號非M17。(雙軌期間，如無合併其他錯誤，本筆仍會收載)");
+            LByPass.Add("M17 - 原處方服務機構代號 *\r\nAA - 欄位資料必填寫");
+            LByPass.Add("M19 - 原就診日期時間 *\r\nAA - 欄位資料必填寫");
+            LByPass.Add("M33 - 已調劑連續處方箋次數 *\r\nD024 - 查無開立端上傳之慢性病連續處方箋料，不可執行。無處方聯次資料，不可執行。(雙軌期間，如無合併其他錯誤，本筆仍會收載)");
+            LByPass.Add("M34 - 已調劑連續處方箋次數 *\r\nD024 - 查無開立端上傳之慢性病連續處方箋料，不可執行。無處方聯次資料，不可執行。(雙軌期間，如無合併其他錯誤，本筆仍會收載)");
+            if (chkExcludeM16.Checked)
+            {
+                var rowsToRemove = dt.AsEnumerable()
+                .Where(row => LByPass.Contains(row.Field<string>("sourceColumn")))
+                .ToList();
+                foreach (var rowToRemove in rowsToRemove)
+                {
+                    dt.Rows.Remove(rowToRemove);
+                }
+            }
+
+            return dt;
+        }
+
+        private void btnAllXmlErr_Click(object sender, EventArgs e)
+        {
+            DataTable dtResult = new DataTable();
+
+            foreach (var i in _dicDoc)
+            {
+                string XmlFile = i.Key;
+
+                if (cmbXMLFile.Items.Contains(XmlFile))
+                {
+                    cmbXMLFile.SelectedItem = XmlFile;
+                    Application.DoEvents();
+                }
+
+                DataTable dtNew = GetErrRanking();
+
+                dtResult = Getdt合併統計(dtNew, dtResult);
+            }
+
+            dataGridView2.DataSource = dtResult;
+            dataGridView1.Visible = false;
+            dataGridView2.Visible = true;
+        }
+
+        public DataTable Getdt合併統計(DataTable dt1, DataTable dt2)
+        {
+            DataTable dtResult = new DataTable();
+            dtResult.Columns.Add("sourceColumn", typeof(string));
+            dtResult.Columns.Add("Cnt", typeof(int));
+
+
+            //var combinedData = from row1 in dt1.AsEnumerable()
+            //                   join row2 in dt2.AsEnumerable()
+            //                   on row1.Field<string>("sourceColumn") equals row2.Field<string>("sourceColumn") into joinedData
+            //                   from data in joinedData.DefaultIfEmpty()
+            //                   select new
+            //                   {
+            //                       sourceColumn = row1.Field<string>("sourceColumn"),
+            //                       Cnt = (row1.Field<int>("Cnt") + (data == null ? 0 : data.Field<int>("Cnt")))
+            //                   };
+
+            var leftJoin = from row1 in dt1.AsEnumerable()
+                           join row2 in dt2.AsEnumerable()
+                           on row1.Field<string>("sourceColumn") equals row2.Field<string>("sourceColumn") into joinedData
+                           from data in joinedData.DefaultIfEmpty()
+                           select new
+                           {
+                               sourceColumn = row1.Field<string>("sourceColumn"),
+                               Cnt = (row1.Field<int>("Cnt") + (data == null ? 0 : data.Field<int>("Cnt")))
+                           };
+
+            var rightJoin = from row2 in dt2.AsEnumerable()
+                            join row1 in dt1.AsEnumerable()
+                            on row2.Field<string>("sourceColumn") equals row1.Field<string>("sourceColumn") into joinedData
+                            from data in joinedData.DefaultIfEmpty()
+                            select new
+                            {
+                                sourceColumn = row2.Field<string>("sourceColumn"),
+                                Cnt = (row2.Field<int>("Cnt") + (data == null ? 0 : data.Field<int>("Cnt")))
+                            };
+
+            // Merge the results of the left and right joins
+            var fullJoin = leftJoin.Concat(rightJoin.Where(rj => !leftJoin.Any(lj => lj.sourceColumn == rj.sourceColumn)));
+
+
+            foreach (var item in fullJoin)
+            {
+                dtResult.Rows.Add(item.sourceColumn, item.Cnt);
+            }
+
+            return dtResult;
         }
     }
 }

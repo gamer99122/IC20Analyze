@@ -29,7 +29,7 @@ namespace IC20Analyze
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnAnalyze = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.第幾筆 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -73,6 +73,7 @@ namespace IC20Analyze
             this.label18 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.chkExcludeM16 = new System.Windows.Forms.CheckBox();
+            this.btnAllXmlErr = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -104,14 +105,14 @@ namespace IC20Analyze
             this.就醫識別碼,
             this.錯誤原因,
             this.原始內容});
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle6;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
@@ -164,6 +165,7 @@ namespace IC20Analyze
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.btnAllXmlErr);
             this.panel1.Controls.Add(this.chkExcludeM16);
             this.panel1.Controls.Add(this.label18);
             this.panel1.Controls.Add(this.label19);
@@ -537,6 +539,16 @@ namespace IC20Analyze
             this.chkExcludeM16.Text = "排除M16因素";
             this.chkExcludeM16.UseVisualStyleBackColor = true;
             // 
+            // btnAllXmlErr
+            // 
+            this.btnAllXmlErr.Location = new System.Drawing.Point(681, 154);
+            this.btnAllXmlErr.Name = "btnAllXmlErr";
+            this.btnAllXmlErr.Size = new System.Drawing.Size(95, 32);
+            this.btnAllXmlErr.TabIndex = 90;
+            this.btnAllXmlErr.Text = "統計XML";
+            this.btnAllXmlErr.UseVisualStyleBackColor = true;
+            this.btnAllXmlErr.Click += new System.EventHandler(this.btnAllXmlErr_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
@@ -606,6 +618,7 @@ namespace IC20Analyze
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.CheckBox chkExcludeM16;
+        private System.Windows.Forms.Button btnAllXmlErr;
     }
 }
 

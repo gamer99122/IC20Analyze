@@ -29,15 +29,14 @@ namespace IC20Analyze
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnAnalyze = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.第幾筆 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.身分證 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.就醫識別碼 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.錯誤原因 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.原始內容 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnAllXmlErr = new System.Windows.Forms.Button();
+            this.chkExcludeM16 = new System.Windows.Forms.CheckBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
             this.chkCreateSQL = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
@@ -70,10 +69,12 @@ namespace IC20Analyze
             this.sourceColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cnt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.chkExcludeM16 = new System.Windows.Forms.CheckBox();
-            this.btnAllXmlErr = new System.Windows.Forms.Button();
+            this.第幾筆 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.身分證 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.就醫識別碼 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.卡號 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.錯誤原因 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.原始內容 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -103,16 +104,17 @@ namespace IC20Analyze
             this.第幾筆,
             this.身分證,
             this.就醫識別碼,
+            this.卡號,
             this.錯誤原因,
             this.原始內容});
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("微軟正黑體", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Name = "dataGridView1";
@@ -121,47 +123,6 @@ namespace IC20Analyze
             this.dataGridView1.Size = new System.Drawing.Size(465, 380);
             this.dataGridView1.TabIndex = 11;
             this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
-            // 
-            // 第幾筆
-            // 
-            this.第幾筆.DataPropertyName = "第幾筆";
-            this.第幾筆.HeaderText = "第幾筆";
-            this.第幾筆.Name = "第幾筆";
-            this.第幾筆.ReadOnly = true;
-            this.第幾筆.Width = 82;
-            // 
-            // 身分證
-            // 
-            this.身分證.DataPropertyName = "身分證M03";
-            this.身分證.HeaderText = "身分證";
-            this.身分證.Name = "身分證";
-            this.身分證.ReadOnly = true;
-            this.身分證.Width = 82;
-            // 
-            // 就醫識別碼
-            // 
-            this.就醫識別碼.DataPropertyName = "就醫識別碼M15";
-            this.就醫識別碼.HeaderText = "就醫識別碼";
-            this.就醫識別碼.Name = "就醫識別碼";
-            this.就醫識別碼.ReadOnly = true;
-            this.就醫識別碼.Width = 114;
-            // 
-            // 錯誤原因
-            // 
-            this.錯誤原因.DataPropertyName = "錯誤原因";
-            this.錯誤原因.HeaderText = "錯誤原因";
-            this.錯誤原因.Name = "錯誤原因";
-            this.錯誤原因.ReadOnly = true;
-            this.錯誤原因.Width = 98;
-            // 
-            // 原始內容
-            // 
-            this.原始內容.DataPropertyName = "原始內容";
-            this.原始內容.HeaderText = "原始內容";
-            this.原始內容.Name = "原始內容";
-            this.原始內容.ReadOnly = true;
-            this.原始內容.Visible = false;
-            this.原始內容.Width = 98;
             // 
             // panel1
             // 
@@ -199,6 +160,45 @@ namespace IC20Analyze
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(897, 198);
             this.panel1.TabIndex = 13;
+            // 
+            // btnAllXmlErr
+            // 
+            this.btnAllXmlErr.Location = new System.Drawing.Point(681, 154);
+            this.btnAllXmlErr.Name = "btnAllXmlErr";
+            this.btnAllXmlErr.Size = new System.Drawing.Size(95, 32);
+            this.btnAllXmlErr.TabIndex = 90;
+            this.btnAllXmlErr.Text = "統計XML";
+            this.btnAllXmlErr.UseVisualStyleBackColor = true;
+            this.btnAllXmlErr.Click += new System.EventHandler(this.btnAllXmlErr_Click);
+            // 
+            // chkExcludeM16
+            // 
+            this.chkExcludeM16.AutoSize = true;
+            this.chkExcludeM16.Location = new System.Drawing.Point(557, 159);
+            this.chkExcludeM16.Name = "chkExcludeM16";
+            this.chkExcludeM16.Size = new System.Drawing.Size(125, 24);
+            this.chkExcludeM16.TabIndex = 89;
+            this.chkExcludeM16.Text = "排除M16因素";
+            this.chkExcludeM16.UseVisualStyleBackColor = true;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.ForeColor = System.Drawing.Color.Blue;
+            this.label18.Location = new System.Drawing.Point(720, 118);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(48, 20);
+            this.label18.TabIndex = 88;
+            this.label18.Text = "[0     ]";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(612, 118);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(110, 20);
+            this.label19.TabIndex = 87;
+            this.label19.Text = "排除M16因素:";
             // 
             // chkCreateSQL
             // 
@@ -510,44 +510,54 @@ namespace IC20Analyze
             this.richTextBox1.TabIndex = 12;
             this.richTextBox1.Text = "";
             // 
-            // label18
+            // 第幾筆
             // 
-            this.label18.AutoSize = true;
-            this.label18.ForeColor = System.Drawing.Color.Blue;
-            this.label18.Location = new System.Drawing.Point(720, 118);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(48, 20);
-            this.label18.TabIndex = 88;
-            this.label18.Text = "[0     ]";
+            this.第幾筆.DataPropertyName = "第幾筆";
+            this.第幾筆.HeaderText = "第幾筆";
+            this.第幾筆.Name = "第幾筆";
+            this.第幾筆.ReadOnly = true;
+            this.第幾筆.Width = 82;
             // 
-            // label19
+            // 身分證
             // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(612, 118);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(110, 20);
-            this.label19.TabIndex = 87;
-            this.label19.Text = "排除M16因素:";
+            this.身分證.DataPropertyName = "身分證M03";
+            this.身分證.HeaderText = "身分證";
+            this.身分證.Name = "身分證";
+            this.身分證.ReadOnly = true;
+            this.身分證.Width = 82;
             // 
-            // chkExcludeM16
+            // 就醫識別碼
             // 
-            this.chkExcludeM16.AutoSize = true;
-            this.chkExcludeM16.Location = new System.Drawing.Point(557, 159);
-            this.chkExcludeM16.Name = "chkExcludeM16";
-            this.chkExcludeM16.Size = new System.Drawing.Size(125, 24);
-            this.chkExcludeM16.TabIndex = 89;
-            this.chkExcludeM16.Text = "排除M16因素";
-            this.chkExcludeM16.UseVisualStyleBackColor = true;
+            this.就醫識別碼.DataPropertyName = "就醫識別碼M15";
+            this.就醫識別碼.HeaderText = "就醫識別碼";
+            this.就醫識別碼.Name = "就醫識別碼";
+            this.就醫識別碼.ReadOnly = true;
+            this.就醫識別碼.Width = 114;
             // 
-            // btnAllXmlErr
+            // 卡號
             // 
-            this.btnAllXmlErr.Location = new System.Drawing.Point(681, 154);
-            this.btnAllXmlErr.Name = "btnAllXmlErr";
-            this.btnAllXmlErr.Size = new System.Drawing.Size(95, 32);
-            this.btnAllXmlErr.TabIndex = 90;
-            this.btnAllXmlErr.Text = "統計XML";
-            this.btnAllXmlErr.UseVisualStyleBackColor = true;
-            this.btnAllXmlErr.Click += new System.EventHandler(this.btnAllXmlErr_Click);
+            this.卡號.DataPropertyName = "卡號";
+            this.卡號.HeaderText = "卡號";
+            this.卡號.Name = "卡號";
+            this.卡號.ReadOnly = true;
+            this.卡號.Width = 66;
+            // 
+            // 錯誤原因
+            // 
+            this.錯誤原因.DataPropertyName = "錯誤原因";
+            this.錯誤原因.HeaderText = "錯誤原因";
+            this.錯誤原因.Name = "錯誤原因";
+            this.錯誤原因.ReadOnly = true;
+            this.錯誤原因.Width = 98;
+            // 
+            // 原始內容
+            // 
+            this.原始內容.DataPropertyName = "原始內容";
+            this.原始內容.HeaderText = "原始內容";
+            this.原始內容.Name = "原始內容";
+            this.原始內容.ReadOnly = true;
+            this.原始內容.Visible = false;
+            this.原始內容.Width = 98;
             // 
             // Main
             // 
@@ -601,11 +611,6 @@ namespace IC20Analyze
         private System.Windows.Forms.TextBox txtOrign;
         private System.Windows.Forms.Splitter splitter1;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 第幾筆;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 身分證;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 就醫識別碼;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 錯誤原因;
-        private System.Windows.Forms.DataGridViewTextBoxColumn 原始內容;
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Button btnErrRanking;
@@ -619,6 +624,12 @@ namespace IC20Analyze
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.CheckBox chkExcludeM16;
         private System.Windows.Forms.Button btnAllXmlErr;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 第幾筆;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 身分證;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 就醫識別碼;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 卡號;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 錯誤原因;
+        private System.Windows.Forms.DataGridViewTextBoxColumn 原始內容;
     }
 }
 

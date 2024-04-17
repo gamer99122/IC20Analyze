@@ -387,6 +387,7 @@ namespace IC20Analyze
             _dt錯誤訊息明細.Columns.Add("第幾筆");
             _dt錯誤訊息明細.Columns.Add("身分證M03");
             _dt錯誤訊息明細.Columns.Add("就醫識別碼M15");
+            _dt錯誤訊息明細.Columns.Add("卡號");
             _dt錯誤訊息明細.Columns.Add("錯誤原因");
             _dt錯誤訊息明細.Columns.Add("原始內容");
         }
@@ -492,6 +493,19 @@ namespace IC20Analyze
                     result = result.Replace("\r\n", "");
                     row["錯誤原因"] = result;
                 }
+
+                //卡號
+                pattern = @"M07=\[.*?\]";
+                matches = Regex.Matches(TxtContent, pattern);
+                if (matches.Count > 0)
+                {
+                    string str卡號M07 = matches[0].ToString();
+                    str卡號M07 = str卡號M07.pReplace("M07=[", "", StringComparison.OrdinalIgnoreCase);
+                    str卡號M07 = str卡號M07.pReplace("]", "", StringComparison.OrdinalIgnoreCase);
+
+                    row["卡號"] = str卡號M07;
+                }
+
                 _dt錯誤訊息明細.Rows.Add(row);
             }
         }
@@ -788,9 +802,11 @@ namespace IC20Analyze
             string result = string.Empty;
 
             // MHData
-            SQL = $"\r\n Select top 1 * From DB_OPD..IC20HMData ";
+            SQL = $"\r\n Select top 10 * From DB_OPD..IC20HMData ";
             SQL += $"\r\n where ";
-            SQL += $"\r\n M15 = '{M15}'; ";
+            SQL += $"\r\n M15 = '{M15}' ";
+            SQL += $"\r\n order by CDTM desc; ";
+
             result += SQL;
 
             DataTable dt = _db.executesqldt(SQL, _conn);
@@ -822,8 +838,7 @@ namespace IC20Analyze
             string No = dt.pRowCol("RegNo");
             SQL = $"\r\n\r\n select top 100 * from DB_OPD..OpdBasicICTbl ";
             SQL += $"\r\n where ";
-            SQL += $"\r\n chOp1Date='{Date}' And chOp1Time='{Time}' And chOp1Room='{Room}' And intOp1No='{No}' ";
-            SQL += $"\r\n And M15 = '{M15}'; ";
+            SQL += $"\r\n chOp1Date='{Date}' And chOp1Time='{Time}' And chOp1Room='{Room}' And intOp1No='{No}' And M15 = '{M15}';";
             result += SQL;
             dt = _db.executesqldt(SQL, _conn);
 

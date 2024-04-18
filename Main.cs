@@ -464,7 +464,7 @@ namespace IC20Analyze
             DataGridViewRow selectedRow = dataGridView1.Rows[rowIndex];
 
             string column錯誤原因 = selectedRow.Cells["錯誤原因"].Value.ToString();
-            msg += "=====================================================================\r\n";
+            msg += "=====================================================================\r\n\r\n";
             msg += _anaTxt.Run解析(column錯誤原因);
             msg += "=====================================================================\r\n\r\n";
 

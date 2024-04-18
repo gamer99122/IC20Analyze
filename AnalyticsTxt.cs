@@ -553,10 +553,6 @@ namespace IC20Analyze
                 }
 
 
-                if (isOK == false)
-                {
-                    return $"資料有問題\r\n{i}";
-                }
 
 
                 string strCode = i.pSplit(":")[1];
@@ -574,7 +570,7 @@ namespace IC20Analyze
                     }
                     else
                     {
-                        strFieldCH = $"查無此欄位Key:[{strField}]";
+                        strFieldCH = strField;
                     }
 
                 }

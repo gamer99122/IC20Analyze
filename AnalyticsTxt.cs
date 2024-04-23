@@ -641,7 +641,7 @@ namespace IC20Analyze
             }
         }
 
-        public void Get總排行數量(string str)
+        public void Get總排行數量(string str, bool IsPersonal = false)
         {
             //_dt總排行比數
             _dt總排行數量 = new DataTable();
@@ -672,12 +672,36 @@ namespace IC20Analyze
             {
                 return;
             }
+            IsPersonal = true;
 
-            i總共幾個錯誤原因列 = errorReasons.Count();
+            List<string> newerrorReasons = new List<string>();
+            if (IsPersonal == true)
+            {
+                //去除[]，ex. D11[1]:16; => D11:16;
+                for (int i = 0; i < errorReasons.Count; i++)
+                {
+                    string result = errorReasons[i];
+
+                    errorReasons[i] = Regex.Replace(result, @"\[[^\]]*\]", "");
+
+                    HashSet<string> uniqueStrings = new HashSet<string>(errorReasons[i].Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries));
+
+                    // 將去除重複後的字串重新連接起來
+                    string result1 = string.Join(";", uniqueStrings);
+                    newerrorReasons.Add(result1);
+                }
+            }
 
             _dt總排行數量.Clear();
 
-            foreach (var i in errorReasons)
+
+
+            i總共幾個錯誤原因列 = newerrorReasons.Count();
+            //i總共幾個錯誤原因列 = errorReasons.Count();
+
+            _dt總排行數量.Clear();
+            //foreach (var i in errorReasons)
+            foreach (var i in newerrorReasons)
             {
                 string Content = i;
 
@@ -688,7 +712,10 @@ namespace IC20Analyze
 
                 //ex.M49:AF;M51:AA;D05[1]:AF;
                 //去除最後一個字;，這樣就可以取M49:AF、M51:AA、D05[1]:AF，不會多取空白
-                Content = Content.Substring(0, Content.Length - 1);
+                if(Content.pRight(1) == ";")
+                {
+                    Content = Content.Substring(0, Content.Length - 1);
+                }
 
                 var arrContent = Content.pSplit(";").ToList();
 

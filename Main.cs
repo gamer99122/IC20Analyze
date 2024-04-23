@@ -502,6 +502,8 @@ namespace IC20Analyze
             LByPass.Add("M19 - 原就診日期時間 *\r\nAA - 欄位資料必填寫");
             LByPass.Add("M33 - 已調劑連續處方箋次數 *\r\nD024 - 查無開立端上傳之慢性病連續處方箋料，不可執行。無處方聯次資料，不可執行。(雙軌期間，如無合併其他錯誤，本筆仍會收載)");
             LByPass.Add("M34 - 已調劑連續處方箋次數 *\r\nD024 - 查無開立端上傳之慢性病連續處方箋料，不可執行。無處方聯次資料，不可執行。(雙軌期間，如無合併其他錯誤，本筆仍會收載)");
+            LByPass.Add("D11[1] - 處方簽章(須配合法規)\r\n16 - 處方簽章驗證不通過");
+            
             if (chkExcludeM16.Checked)
             {
                 var rowsToRemove = dt.AsEnumerable()

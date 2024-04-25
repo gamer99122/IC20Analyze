@@ -42,6 +42,7 @@ namespace IC20Analyze
         public string _str有效醫令;
         public string _str無效明細;
         public string _strTxt純文字內容;
+        public Dictionary<string, string> dicDoc10 = new Dictionary<string, string>();
 
         public AnalyticsTxt()
         {
@@ -384,6 +385,7 @@ namespace IC20Analyze
         private void LoadDt錯誤訊息明細()
         {
             _dt錯誤訊息明細 = new DataTable();
+            _dt錯誤訊息明細.Columns.Add("1.0狀態");
             _dt錯誤訊息明細.Columns.Add("第幾筆");
             _dt錯誤訊息明細.Columns.Add("身分證M03");
             _dt錯誤訊息明細.Columns.Add("就醫識別碼M15");
@@ -504,6 +506,28 @@ namespace IC20Analyze
                     str卡號M07 = str卡號M07.pReplace("]", "", StringComparison.OrdinalIgnoreCase);
 
                     row["卡號"] = str卡號M07;
+                }
+
+                //M11
+                pattern = @"M11=\[.*?\]";
+                string str日期時間M11 = string.Empty;
+                matches = Regex.Matches(TxtContent, pattern);
+                if (matches.Count > 0)
+                {
+                    str日期時間M11 = matches[0].ToString();
+                    str日期時間M11 = str日期時間M11.pReplace("M11=[", "", StringComparison.OrdinalIgnoreCase);
+                    str日期時間M11 = str日期時間M11.pReplace("]", "", StringComparison.OrdinalIgnoreCase);
+
+                }
+
+                //比對1.0的XML
+                bool Is10IsErr = false;
+                foreach (var item in dicDoc10)
+                {
+                    string XMLContant = item.Value;
+
+                    Is10IsErr = XMLContant.Contains(str日期時間M11);
+                    row["1.0狀態"] = Is10IsErr ? "X" : "-";
                 }
 
                 _dt錯誤訊息明細.Rows.Add(row);
@@ -712,7 +736,7 @@ namespace IC20Analyze
 
                 //ex.M49:AF;M51:AA;D05[1]:AF;
                 //去除最後一個字;，這樣就可以取M49:AF、M51:AA、D05[1]:AF，不會多取空白
-                if(Content.pRight(1) == ";")
+                if (Content.pRight(1) == ";")
                 {
                     Content = Content.Substring(0, Content.Length - 1);
                 }
@@ -848,7 +872,7 @@ namespace IC20Analyze
                 result += "\r\n -- DDate 沒有資料";
             }
 
-            if(dt.pEmpty())
+            if (dt.pEmpty())
             {
                 result += "\r\n -- OpdBasicICTbl 沒有資料";
                 return result;

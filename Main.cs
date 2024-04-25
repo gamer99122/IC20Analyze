@@ -20,7 +20,7 @@ namespace IC20Analyze
     public partial class Main : Form
     {
         AnalyticsTxt _anaTxt = new AnalyticsTxt();
-        csBasicSetting _basSetting = new csBasicSetting();
+        csBasicSetting _basSetting20 = new csBasicSetting();
         public bool _IsCreateSQL = false;
 
         public Main()
@@ -30,14 +30,33 @@ namespace IC20Analyze
 
         private void Main_Load(object sender, EventArgs e)
         {
-            txtPath.Text = _basSetting.GetFilePath;
-            GetFiles();
+            txtPath.Text = _basSetting20.GetFilePath20;
+            GetFiles10();
+            GetFiles20();
             GetCreateSQL();
+        }
+
+        private void GetFiles10()
+        {
+            _dicDoc10 = LoadZipFiles(_basSetting20.GetFilePath10);
+
+            var docTitle = _dicDoc10.Select(o => o.Key).OrderByDescending(o => o);
+            cmbXMLFile10.DataSource = docTitle.ToList();
+
+            txtOrign10.Text = "";
+            // 打印读取的文件内容
+            foreach (var kvp in _dicDoc10)
+            {
+                Console.WriteLine($"File Name: {kvp.Key}\nContent:\n{kvp.Value}\n");
+                string contant = kvp.Value;
+                txtOrign10.Text += contant; 
+            }
         }
 
         private void btnAnalyze_Click(object sender, EventArgs e)
         {
-            GetFiles();
+            GetFiles10();
+            GetFiles20();         
             SetAnalyzeText();
         }
 
@@ -49,12 +68,13 @@ namespace IC20Analyze
             }
 
             // 重新載入
-            GetFiles();
+            GetFiles10();
+            GetFiles20();
         }
 
         private void cmbXMLFile_SelectedIndexChanged(object sender, EventArgs e)
         {
-            txtOrign.Text = _dicDoc[cmbXMLFile.Text];
+            txtOrign.Text = _dicDoc20[cmbXMLFile20.Text];
             if (txtOrign.Text.Length <= 0)
             {
                 return;
@@ -64,8 +84,8 @@ namespace IC20Analyze
 
         private void btnOpenFile_Click(object sender, EventArgs e)
         {
-            _basSetting.GetFilePath = txtPath.Text.pNullOrTrimTwo();
-            OpenFolder(_basSetting.GetFilePath);
+            _basSetting20.GetFilePath20 = txtPath.Text.pNullOrTrimTwo();
+            OpenFolder(_basSetting20.GetFilePath20);
         }
 
 
@@ -74,7 +94,7 @@ namespace IC20Analyze
         //*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*--**-*-*-
 
 
-        void SetAnalyzeText()
+        private void SetAnalyzeText()
         {
 
             btnAnalyze.Enabled = false;
@@ -89,6 +109,9 @@ namespace IC20Analyze
 
             dataGridView1.Visible = true;
             dataGridView2.Visible = false;
+
+            //IC10的資料
+            _anaTxt.dicDoc10 = _dicDoc10;
 
             _anaTxt.Get全文解析(str);
 
@@ -157,8 +180,15 @@ namespace IC20Analyze
 
             bindingSource = new BindingSource();
             bindingSource.DataSource = dt;
-            dataGridView1.DataSource = dt;
+
+            // 使用 DataView 對象對資料進行排序
+            DataView dataView = dt.DefaultView;
+            dataView.Sort = "錯誤原因"; // 根據 Name 欄升序排序
+            // 將排序後的 DataView 重新綁定到 DataGridView
+            dataGridView1.DataSource = dataView.ToTable();
+
             dataGridView1.pColorRow();
+
 
             btnAnalyze.Enabled = true;
         }
@@ -166,23 +196,24 @@ namespace IC20Analyze
         //*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
 
 
-        static Dictionary<string, string> _dicDoc = new Dictionary<string, string>();
+        static Dictionary<string, string> _dicDoc20 = new Dictionary<string, string>();
+        static Dictionary<string, string> _dicDoc10 = new Dictionary<string, string>();
 
 
         /// <summary>
         /// 讀取zip
         /// </summary>
-        void GetFiles()
+        private void GetFiles20()
         {
-            _basSetting.GetFilePath = txtPath.Text.pNullOrTrimTwo();
-            _dicDoc = LoadZipFiles(_basSetting.GetFilePath);
+            _basSetting20.GetFilePath20 = txtPath.Text.pNullOrTrimTwo();
+            _dicDoc20 = LoadZipFiles(_basSetting20.GetFilePath20);
 
-            var docTitle = _dicDoc.Select(o => o.Key).OrderByDescending(o => o);
-            cmbXMLFile.DataSource = docTitle.ToList();
+            var docTitle = _dicDoc20.Select(o => o.Key).OrderByDescending(o => o);
+            cmbXMLFile20.DataSource = docTitle.ToList();
 
 
             // 打印读取的文件内容
-            foreach (var kvp in _dicDoc)
+            foreach (var kvp in _dicDoc20)
             {
                 Console.WriteLine($"File Name: {kvp.Key}\nContent:\n{kvp.Value}\n");
             }
@@ -335,7 +366,7 @@ namespace IC20Analyze
 
             dataGridView2.Visible = true;
             dataGridView1.Visible = false;
-            txtOrign.Text = _dicDoc[cmbXMLFile.Text];
+            txtOrign.Text = _dicDoc20[cmbXMLFile20.Text];
             btnErrRanking.Enabled = true;
         }
 
@@ -346,8 +377,8 @@ namespace IC20Analyze
         /// <param name="folderPath"></param>
         void CleanUpFiles()
         {
-            string folderPath = _basSetting.GetFilePath;
-            var arrFile = _dicDoc.Select(o => o.Key);
+            string folderPath = _basSetting20.GetFilePath20;
+            var arrFile = _dicDoc20.Select(o => o.Key);
 
 
             string[] files = Directory.GetFiles(folderPath, "*.zip");
@@ -491,7 +522,7 @@ namespace IC20Analyze
         public DataTable GetErrRanking()
         {
             SetAnalyzeText();
-            string str = _dicDoc[cmbXMLFile.Text];
+            string str = _dicDoc20[cmbXMLFile20.Text];
             _anaTxt.Get總排行數量(str);
             DataTable dt = _anaTxt._dt總排行數量;
 
@@ -522,13 +553,17 @@ namespace IC20Analyze
         {
             DataTable dtResult = new DataTable();
 
-            foreach (var i in _dicDoc)
+
+            int iIC10Err = 0;
+            int iIC10Success = 0;
+
+            foreach (var i in _dicDoc20)
             {
                 string XmlFile = i.Key;
 
-                if (cmbXMLFile.Items.Contains(XmlFile))
+                if (cmbXMLFile20.Items.Contains(XmlFile))
                 {
-                    cmbXMLFile.SelectedItem = XmlFile;
+                    cmbXMLFile20.SelectedItem = XmlFile;
                     Application.DoEvents();
                 }
 

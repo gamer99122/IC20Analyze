@@ -32,6 +32,12 @@ namespace IC20Analyze
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnAnalyze = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.第幾筆 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.身分證 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.就醫識別碼 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.卡號 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.錯誤原因 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.原始內容 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnAllXmlErr = new System.Windows.Forms.Button();
             this.chkExcludeM16 = new System.Windows.Forms.CheckBox();
@@ -69,12 +75,6 @@ namespace IC20Analyze
             this.sourceColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Cnt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.第幾筆 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.身分證 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.就醫識別碼 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.卡號 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.錯誤原因 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.原始內容 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -123,6 +123,55 @@ namespace IC20Analyze
             this.dataGridView1.Size = new System.Drawing.Size(465, 380);
             this.dataGridView1.TabIndex = 11;
             this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
+            // 
+            // 第幾筆
+            // 
+            this.第幾筆.DataPropertyName = "第幾筆";
+            this.第幾筆.HeaderText = "第幾筆";
+            this.第幾筆.Name = "第幾筆";
+            this.第幾筆.ReadOnly = true;
+            this.第幾筆.Width = 82;
+            // 
+            // 身分證
+            // 
+            this.身分證.DataPropertyName = "身分證M03";
+            this.身分證.HeaderText = "身分證";
+            this.身分證.Name = "身分證";
+            this.身分證.ReadOnly = true;
+            this.身分證.Width = 82;
+            // 
+            // 就醫識別碼
+            // 
+            this.就醫識別碼.DataPropertyName = "就醫識別碼M15";
+            this.就醫識別碼.HeaderText = "就醫識別碼";
+            this.就醫識別碼.Name = "就醫識別碼";
+            this.就醫識別碼.ReadOnly = true;
+            this.就醫識別碼.Width = 114;
+            // 
+            // 卡號
+            // 
+            this.卡號.DataPropertyName = "卡號";
+            this.卡號.HeaderText = "卡號";
+            this.卡號.Name = "卡號";
+            this.卡號.ReadOnly = true;
+            this.卡號.Width = 66;
+            // 
+            // 錯誤原因
+            // 
+            this.錯誤原因.DataPropertyName = "錯誤原因";
+            this.錯誤原因.HeaderText = "錯誤原因";
+            this.錯誤原因.Name = "錯誤原因";
+            this.錯誤原因.ReadOnly = true;
+            this.錯誤原因.Width = 98;
+            // 
+            // 原始內容
+            // 
+            this.原始內容.DataPropertyName = "原始內容";
+            this.原始內容.HeaderText = "原始內容";
+            this.原始內容.Name = "原始內容";
+            this.原始內容.ReadOnly = true;
+            this.原始內容.Visible = false;
+            this.原始內容.Width = 98;
             // 
             // panel1
             // 
@@ -176,9 +225,9 @@ namespace IC20Analyze
             this.chkExcludeM16.AutoSize = true;
             this.chkExcludeM16.Location = new System.Drawing.Point(557, 159);
             this.chkExcludeM16.Name = "chkExcludeM16";
-            this.chkExcludeM16.Size = new System.Drawing.Size(125, 24);
+            this.chkExcludeM16.Size = new System.Drawing.Size(124, 24);
             this.chkExcludeM16.TabIndex = 89;
-            this.chkExcludeM16.Text = "排除M16因素";
+            this.chkExcludeM16.Text = "排除其他因素";
             this.chkExcludeM16.UseVisualStyleBackColor = true;
             // 
             // label18
@@ -509,55 +558,6 @@ namespace IC20Analyze
             this.richTextBox1.Size = new System.Drawing.Size(465, 380);
             this.richTextBox1.TabIndex = 12;
             this.richTextBox1.Text = "";
-            // 
-            // 第幾筆
-            // 
-            this.第幾筆.DataPropertyName = "第幾筆";
-            this.第幾筆.HeaderText = "第幾筆";
-            this.第幾筆.Name = "第幾筆";
-            this.第幾筆.ReadOnly = true;
-            this.第幾筆.Width = 82;
-            // 
-            // 身分證
-            // 
-            this.身分證.DataPropertyName = "身分證M03";
-            this.身分證.HeaderText = "身分證";
-            this.身分證.Name = "身分證";
-            this.身分證.ReadOnly = true;
-            this.身分證.Width = 82;
-            // 
-            // 就醫識別碼
-            // 
-            this.就醫識別碼.DataPropertyName = "就醫識別碼M15";
-            this.就醫識別碼.HeaderText = "就醫識別碼";
-            this.就醫識別碼.Name = "就醫識別碼";
-            this.就醫識別碼.ReadOnly = true;
-            this.就醫識別碼.Width = 114;
-            // 
-            // 卡號
-            // 
-            this.卡號.DataPropertyName = "卡號";
-            this.卡號.HeaderText = "卡號";
-            this.卡號.Name = "卡號";
-            this.卡號.ReadOnly = true;
-            this.卡號.Width = 66;
-            // 
-            // 錯誤原因
-            // 
-            this.錯誤原因.DataPropertyName = "錯誤原因";
-            this.錯誤原因.HeaderText = "錯誤原因";
-            this.錯誤原因.Name = "錯誤原因";
-            this.錯誤原因.ReadOnly = true;
-            this.錯誤原因.Width = 98;
-            // 
-            // 原始內容
-            // 
-            this.原始內容.DataPropertyName = "原始內容";
-            this.原始內容.HeaderText = "原始內容";
-            this.原始內容.Name = "原始內容";
-            this.原始內容.ReadOnly = true;
-            this.原始內容.Visible = false;
-            this.原始內容.Width = 98;
             // 
             // Main
             // 
